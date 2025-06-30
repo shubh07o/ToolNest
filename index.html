@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolNest - All-in-one Free Tool Collection</title>
+    <meta name="description" content="All-in-one free tool collection to make life easier. Age Calculator, BMI Calculator, Unit Converter, Password Generator, Text Case Converter, Random Number Generator and more.">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: scale(1.05);
+        }
+        
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f3f4f6;
+        }
+        
+        .tool-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-4px);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        /* Dark mode styles */
+        .dark .tool-card {
+            background: #1f2937;
+            border-color: #374151;
+            color: #f9fafb;
+        }
+        
+        .dark .tool-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dark .btn-secondary {
+            background: #374151;
+            color: #f9fafb;
+        }
+        
+        .dark .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        /* Circular Animation Background */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orbital-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            animation: orbit 20s linear infinite;
+        }
+
+        .orbital-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, rgba(147, 51, 234, 0.1) 50%, transparent 100%);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .orbital-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 100%);
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+            animation-duration: 30s;
+        }
+
+        .orbital-circle:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, rgba(236, 72, 153, 0.1) 50%, transparent 100%);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+            animation-duration: 28s;
+        }
+
+        .orbital-circle:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0.1) 50%, transparent 100%);
+            top: 30%;
+            right: 30%;
+            animation-delay: -15s;
+            animation-duration: 22s;
+        }
+
+        .orbital-circle:nth-child(5) {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, rgba(245, 158, 11, 0.1) 50%, transparent 100%);
+            bottom: 40%;
+            right: 5%;
+            animation-delay: -8s;
+            animation-duration: 35s;
+        }
+
+        @keyframes orbit {
+            0% {
+                transform: rotate(0deg) translateX(100px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(100px) rotate(-360deg);
+            }
+        }
+
+        /* Dark mode adjustments for orbital circles */
+        .dark .orbital-circle:nth-child(1) {
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.4) 0%, rgba(147, 51, 234, 0.15) 50%, transparent 100%);
+        }
+
+        .dark .orbital-circle:nth-child(2) {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 100%);
+        }
+
+        .dark .orbital-circle:nth-child(3) {
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, rgba(236, 72, 153, 0.15) 50%, transparent 100%);
+        }
+
+        .dark .orbital-circle:nth-child(4) {
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0.15) 50%, transparent 100%);
+        }
+
+        .dark .orbital-circle:nth-child(5) {
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.4) 0%, rgba(245, 158, 11, 0.15) 50%, transparent 100%);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .orbital-circle {
+                filter: blur(30px);
+            }
+            
+            .orbital-circle:nth-child(1) {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .orbital-circle:nth-child(2) {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .orbital-circle:nth-child(3) {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .orbital-circle:nth-child(4) {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .orbital-circle:nth-child(5) {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .orbital-circle {
+                animation: none;
+            }
+        }
+        /* Animated Background */
+        .animated-background {
+          position: fixed;
+          top: 0; left: 0;
+          width: 100vw; height: 100vh;
+          z-index: 0;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        .floating-shape {
+          position: absolute;
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(59,130,246,0.10), rgba(147,51,234,0.10));
+          animation: float 20s infinite linear;
+          opacity: 0.13;
+        }
+        .floating-shape:nth-child(1) { width: 120px; height: 120px; top: 10%; left: 10%; animation-delay: 0s; animation-duration: 25s; }
+        .floating-shape:nth-child(2) { width: 80px; height: 80px; top: 20%; right: 15%; animation-delay: -5s; animation-duration: 30s; background: linear-gradient(135deg, rgba(147,51,234,0.09), rgba(59,130,246,0.09)); }
+        .floating-shape:nth-child(3) { width: 100px; height: 100px; bottom: 20%; left: 20%; animation-delay: -10s; animation-duration: 28s; background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(236,72,153,0.08)); }
+        .floating-shape:nth-child(4) { width: 60px; height: 60px; bottom: 30%; right: 25%; animation-delay: -15s; animation-duration: 22s; background: linear-gradient(135deg, rgba(236,72,153,0.10), rgba(147,51,234,0.10)); }
+        .floating-shape:nth-child(5) { width: 90px; height: 90px; top: 60%; left: 5%; animation-delay: -8s; animation-duration: 35s; background: linear-gradient(135deg, rgba(147,51,234,0.07), rgba(59,130,246,0.07)); }
+        .floating-shape:nth-child(6) { width: 70px; height: 70px; top: 40%; right: 5%; animation-delay: -12s; animation-duration: 26s; background: linear-gradient(135deg, rgba(59,130,246,0.09), rgba(236,72,153,0.09)); }
+        @keyframes float {
+          0% { transform: translateY(0px) rotate(0deg); opacity: 0.13; }
+          25% { transform: translateY(-20px) rotate(90deg); opacity: 0.18; }
+          50% { transform: translateY(-40px) rotate(180deg); opacity: 0.13; }
+          75% { transform: translateY(-20px) rotate(270deg); opacity: 0.18; }
+          100% { transform: translateY(0px) rotate(360deg); opacity: 0.13; }
+        }
+        /* Dark mode support */
+        .dark .animated-background .floating-shape {
+          background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(147,51,234,0.18));
+          opacity: 0.22;
+        }
+        .dark .animated-background .floating-shape:nth-child(2) {
+          background: linear-gradient(135deg, rgba(147,51,234,0.15), rgba(59,130,246,0.15));
+        }
+        .dark .animated-background .floating-shape:nth-child(3) {
+          background: linear-gradient(135deg, rgba(59,130,246,0.13), rgba(236,72,153,0.13));
+        }
+        .dark .animated-background .floating-shape:nth-child(4) {
+          background: linear-gradient(135deg, rgba(236,72,153,0.16), rgba(147,51,234,0.16));
+        }
+        .dark .animated-background .floating-shape:nth-child(5) {
+          background: linear-gradient(135deg, rgba(147,51,234,0.12), rgba(59,130,246,0.12));
+        }
+        .dark .animated-background .floating-shape:nth-child(6) {
+          background: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(236,72,153,0.14));
+        }
+        @media (max-width: 768px) {
+          .floating-shape { animation-duration: 30s; }
+          .floating-shape:nth-child(1) { width: 80px; height: 80px; }
+          .floating-shape:nth-child(2) { width: 60px; height: 60px; }
+          .floating-shape:nth-child(3) { width: 70px; height: 70px; }
+          .floating-shape:nth-child(4) { width: 50px; height: 50px; }
+          .floating-shape:nth-child(5) { width: 60px; height: 60px; }
+          .floating-shape:nth-child(6) { width: 50px; height: 50px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .floating-shape { animation: none; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col">
+    <!-- Circular Animation Background -->
+    <div class="animated-background">
+        <div class="orbital-circle"></div>
+        <div class="orbital-circle"></div>
+        <div class="orbital-circle"></div>
+        <div class="orbital-circle"></div>
+        <div class="orbital-circle"></div>
+    </div>
+    <!-- Navbar -->
+    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">TN</span>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        ToolNest
+                    </span>
+                    <a href="https://www.instagram.com/_shubh.x7/?__pwa=1" target="_blank" rel="noopener noreferrer" class="ml-3 text-sm text-gray-500 font-medium hidden sm:inline-block hover:text-pink-600 transition-colors duration-200 underline dark:text-gray-400 dark:hover:text-pink-400">by Shubham Yadav</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 dark:text-gray-300 dark:hover:text-blue-400">Home</a>
+                    <a href="#tools" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 dark:text-gray-300 dark:hover:text-blue-400">Tools</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors duration-200 dark:text-gray-300 dark:hover:text-blue-400">About</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <div class="relative hidden md:block">
+                        <input type="text" id="search-tools" placeholder="Search tools..." class="w-64 px-4 py-2 pl-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400">
+                        <svg class="absolute left-3 top-2.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <!-- Dark Mode Toggle -->
+                    <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-200 dark:bg-gray-700 dark:hover:bg-gray-600">
+                        <svg id="dark-mode-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg id="light-mode-icon" class="w-5 h-5 text-gray-600 dark:text-gray-300 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                    <button class="btn-primary" onclick="scrollToSection('tools')">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Hero Section -->
+        <section id="home" class="py-16 md:py-24 text-center animate-fade-in">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 dark:text-white">
+                    All-in-one free tool collection to
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        make life easier
+                    </span>
+                </h1>
+                <p class="text-base text-gray-500 mb-2 dark:text-gray-400">Created by <a href="https://www.instagram.com/_shubh.x7/?__pwa=1" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-pink-600 underline transition-colors duration-200 dark:text-blue-400 dark:hover:text-pink-400">Shubham Yadav</a></p>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed dark:text-gray-300">
+                    Discover a comprehensive suite of practical utilities designed to simplify your daily tasks. 
+                    From calculations to conversions, everything you need in one place.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button class="btn-primary text-lg px-8 py-3" onclick="scrollToSection('tools')">
+                        Explore Tools
+                    </button>
+                    <button class="btn-secondary text-lg px-8 py-3" onclick="scrollToSection('about')">
+                        Learn More
+                    </button>
+                </div>
+                <div class="mt-12 flex justify-center">
+                    <div class="flex items-center space-x-8 text-gray-500 dark:text-gray-400">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">⚡</span>
+                            <span class="text-sm font-medium">Fast & Reliable</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">🔒</span>
+                            <span class="text-sm font-medium">100% Free</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">📱</span>
+                            <span class="text-sm font-medium">Mobile Friendly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Grid -->
+        <section id="tools" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 dark:text-white">
+                    Basic Tools
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto dark:text-gray-300">
+                    A collection of essential calculators, converters, and generators to make your daily tasks easier and more efficient.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto" id="tool-cards">
+                <!-- Age Calculator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="age" data-tool-name="Age Calculator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🎂</div>
+                        <button onclick="toggleFavorite('age')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="age">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Age Calculator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Calculate your exact age in years, months, weeks, days, hours, minutes, and seconds</p>
+                    <button onclick="openModal('age-modal')" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- BMI Calculator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="bmi" data-tool-name="BMI Calculator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">⚖️</div>
+                        <button onclick="toggleFavorite('bmi')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="bmi">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">BMI Calculator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Calculate your Body Mass Index and understand your health status</p>
+                    <button onclick="openModal('bmi-modal')" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Unit Converter -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="unit" data-tool-name="Unit Converter">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🔄</div>
+                        <button onclick="toggleFavorite('unit')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="unit">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Unit Converter</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Convert between different units of length, weight, and temperature</p>
+                    <button onclick="openModal('unit-modal')" class="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Password Generator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="password" data-tool-name="Password Generator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🔐</div>
+                        <button onclick="toggleFavorite('password')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="password">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Password Generator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Generate strong, secure passwords with customizable options</p>
+                    <button onclick="openModal('password-modal')" class="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Text Case Converter -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="textcase" data-tool-name="Text Case Converter">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">📝</div>
+                        <button onclick="toggleFavorite('textcase')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="textcase">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Text Case Converter</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Convert text between different cases like uppercase, lowercase, title case</p>
+                    <button onclick="openModal('textcase-modal')" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Random Number Generator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="random" data-tool-name="Random Number Generator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🎲</div>
+                        <button onclick="toggleFavorite('random')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="random">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Random Number Generator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Generate random numbers within a specified range</p>
+                    <button onclick="openModal('random-modal')" class="w-full bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Date Difference Calculator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="datediff" data-tool-name="Date Difference Calculator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">📅</div>
+                        <button onclick="toggleFavorite('datediff')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="datediff">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Date Difference Calculator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Calculate the exact difference between two dates</p>
+                    <button onclick="openModal('datediff-modal')" class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Days Until Countdown -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="countdown" data-tool-name="Days Until Countdown">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">⏰</div>
+                        <button onclick="toggleFavorite('countdown')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="countdown">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Days Until Countdown</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Count down the days until a specific event or date</p>
+                    <button onclick="openModal('countdown-modal')" class="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Percentage Calculator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="percent" data-tool-name="Percentage Calculator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">💯</div>
+                        <button onclick="toggleFavorite('percent')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="percent">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Percentage Calculator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Calculate percentages, find values, and solve percentage problems</p>
+                    <button onclick="openModal('percent-modal')" class="w-full bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Interest Calculator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="interest" data-tool-name="Interest Calculator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">💰</div>
+                        <button onclick="toggleFavorite('interest')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="interest">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Interest Calculator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Calculate simple and compound interest on loans and investments</p>
+                    <button onclick="openModal('interest-modal')" class="w-full bg-emerald-600 text-white py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors">Launch Tool</button>
+                </div>
+
+                <!-- Time Zone Converter -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="timezone" data-tool-name="Time Zone Converter">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🌍</div>
+                        <button onclick="toggleFavorite('timezone')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="timezone">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                    </button>
+                </div>
+                    <h3 class="text-xl font-semibold mb-2">Time Zone Converter</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Convert time between different time zones around the world</p>
+                    <button onclick="openModal('timezone-modal')" class="w-full bg-cyan-600 text-white py-2 px-4 rounded-lg hover:bg-cyan-700 transition-colors">Launch Tool</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Educational Tools Section -->
+        <section id="educational-tools" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 dark:text-white">
+                    📚 Educational / Student Tools
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto dark:text-gray-300">
+                    Essential tools for students, researchers, and anyone learning mathematics, chemistry, and physics.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                <!-- Scientific Calculator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="scientific" data-tool-name="Scientific Calculator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🧠</div>
+                        <button onclick="toggleFavorite('scientific')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="scientific">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </button>
+                        </div>
+                    <h3 class="text-xl font-semibold mb-2">Scientific Calculator</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Advanced calculator with trigonometric, logarithmic, and exponential functions</p>
+                    <button onclick="openModal('scientific-modal')" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Launch Tool</button>
+                    </div>
+
+                <!-- Quadratic Equation Solver -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="quadratic" data-tool-name="Quadratic Equation Solver">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">📓</div>
+                        <button onclick="toggleFavorite('quadratic')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="quadratic">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </button>
+                        </div>
+                    <h3 class="text-xl font-semibold mb-2">Quadratic Equation Solver</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Solve quadratic equations and find roots with step-by-step solutions</p>
+                    <button onclick="openModal('quadratic-modal')" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">Launch Tool</button>
+                    </div>
+
+                <!-- Mole Calculator -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="mole" data-tool-name="Mole Calculator">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🧪</div>
+                        <button onclick="toggleFavorite('mole')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="mole">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </button>
+                        </div>
+                    <h3 class="text-xl font-semibold mb-2">Mole Calculator (Chem)</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Calculate moles, mass, and molecular weight for chemical compounds</p>
+                    <button onclick="openModal('mole-modal')" class="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">Launch Tool</button>
+                    </div>
+
+                <!-- Periodic Table Search Tool -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="periodic" data-tool-name="Periodic Table Search Tool">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">🔬</div>
+                        <button onclick="toggleFavorite('periodic')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="periodic">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </button>
+                        </div>
+                    <h3 class="text-xl font-semibold mb-2">Periodic Table Search Tool</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Search and explore elements with detailed properties and information</p>
+                    <button onclick="openModal('periodic-modal')" class="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Launch Tool</button>
+                    </div>
+
+                <!-- Logarithm Solver Modal (Upgraded) -->
+                <div id="logarithm-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+                    <button onclick="closeModal('logarithm-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+                    <h2 class="text-2xl font-bold mb-2 text-blue-700 dark:text-blue-300">Log Calculator (Logarithm)</h2>
+                    <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Please provide any two values to calculate the third in the logarithm equation <b>log<sub>b</sub>x = y</b>. It can accept "e" as a base input.</p>
+                    <div class="mb-4 bg-blue-100 text-blue-900 rounded p-2 text-center text-sm font-medium">Modify the values and click the Calculate button to use</div>
+                    <form id="logCalcForm" class="flex flex-col gap-3" onsubmit="event.preventDefault(); calculateLogAny();">
+                      <div class="flex items-center gap-2 justify-center">
+                        <span class="text-lg font-bold">log</span>
+                        <input type="text" id="logBaseAny" class="w-16 border rounded-lg px-2 py-1 text-center dark:bg-gray-800 dark:border-gray-700" placeholder="base">
+                        <span class="text-lg font-bold">(</span>
+                        <input type="text" id="logNumberAny" class="w-20 border rounded-lg px-2 py-1 text-center dark:bg-gray-800 dark:border-gray-700" placeholder="number">
+                        <span class="text-lg font-bold">)</span>
+                        <span class="text-lg font-bold">=</span>
+                        <input type="text" id="logResultAny" class="w-16 border rounded-lg px-2 py-1 text-center dark:bg-gray-800 dark:border-gray-700" placeholder="result">
+                      </div>
+                      <div class="flex gap-2 mt-2">
+                        <button type="submit" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"><span>Calculate</span><span class="material-icons">play_arrow</span></button>
+                        <button type="button" onclick="clearLogAny()" class="flex-1 bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">Clear</button>
+                      </div>
+                    </form>
+                    <div id="logAnyResult" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+                  </div>
+                </div>
+
+                <!-- Triangle Solver Modal (Upgraded) -->
+                <div id="triangle-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-lg w-full p-6 relative animate-fade-in">
+                    <button onclick="closeModal('triangle-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+                    <h2 class="text-2xl font-bold mb-2 text-teal-700 dark:text-teal-300">Triangle Calculator</h2>
+                    <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Please provide 3 values including at least one side to the following 6 fields, and click the "Calculate" button. When radians are selected as the angle unit, it can take values such as pi/2, pi/4, etc.</p>
+                    <form id="triangleCalcForm" class="flex flex-col gap-3" onsubmit="event.preventDefault(); calculateTriangleAny();">
+                      <div class="flex flex-col items-center">
+                        <div class="relative w-64 h-56 mb-2">
+                          <!-- Triangle SVG -->
+                          <svg viewBox="0 0 256 220" class="absolute left-0 top-0 w-full h-full">
+                            <polygon points="128,20 20,200 236,200" fill="none" stroke="#333" stroke-width="2" />
+                            <!-- Side labels -->
+                            <text x="128" y="210" text-anchor="middle" font-size="12" fill="#2d7a7a">side c</text>
+                            <text x="35" y="110" text-anchor="middle" font-size="12" fill="#2d7a7a">side b</text>
+                            <text x="220" y="110" text-anchor="middle" font-size="12" fill="#2d7a7a">side a</text>
+                            <!-- Angle labels -->
+                            <text x="10" y="205" font-size="14" fill="#2d7a7a">A</text>
+                            <text x="240" y="205" font-size="14" fill="#2d7a7a">B</text>
+                            <text x="128" y="15" text-anchor="middle" font-size="14" fill="#2d7a7a">C</text>
+                          </svg>
+                          <!-- Input fields on triangle -->
+                          <input type="text" id="angleC" class="absolute left-1/2 -translate-x-1/2 top-2 w-14 border rounded px-1 py-0.5 text-center text-sm dark:bg-gray-800 dark:border-gray-700" placeholder="C">
+                          <input type="text" id="sideB" class="absolute left-6 top-1/2 -translate-y-1/2 w-14 border rounded px-1 py-0.5 text-center text-sm dark:bg-gray-800 dark:border-gray-700" placeholder="b">
+                          <input type="text" id="sideA" class="absolute right-6 top-1/2 -translate-y-1/2 w-14 border rounded px-1 py-0.5 text-center text-sm dark:bg-gray-800 dark:border-gray-700" placeholder="a">
+                          <input type="text" id="angleA" class="absolute left-2 bottom-2 w-14 border rounded px-1 py-0.5 text-center text-sm dark:bg-gray-800 dark:border-gray-700" placeholder="A">
+                          <input type="text" id="sideC" class="absolute left-1/2 -translate-x-1/2 bottom-2 w-14 border rounded px-1 py-0.5 text-center text-sm dark:bg-gray-800 dark:border-gray-700" placeholder="c">
+                          <input type="text" id="angleB" class="absolute right-2 bottom-2 w-14 border rounded px-1 py-0.5 text-center text-sm dark:bg-gray-800 dark:border-gray-700" placeholder="B">
+                        </div>
+                        <div class="flex items-center gap-2 mt-2">
+                          <label for="angleUnit" class="text-sm">Angle Unit:</label>
+                          <select id="angleUnit" class="border rounded px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+                            <option value="deg">degree &deg;</option>
+                            <option value="rad">radian</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="flex gap-2 mt-2">
+                        <button type="submit" class="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"><span>Calculate</span><span class="material-icons">play_arrow</span></button>
+                        <button type="button" onclick="clearTriangleAny()" class="flex-1 bg-gray-300 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors">Clear</button>
+                      </div>
+                    </form>
+                    <div id="triangleAnyResult" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+                  </div>
+                </div>
+
+                <!-- Triangle Solver -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 dark:bg-gray-800 dark:text-white tool-card" data-tool="triangle" data-tool-name="Triangle Solver">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-4xl">📐</div>
+                        <button onclick="toggleFavorite('triangle')" class="text-gray-400 hover:text-yellow-500 transition-colors duration-200 favorite-btn" data-tool="triangle">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </button>
+                        </div>
+                    <h3 class="text-xl font-semibold mb-2">Triangle Solver (Sine, Cosine)</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-300">Calculate triangle sides, angles, area using trigonometry</p>
+                    <button onclick="openModal('triangle-modal')" class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors">Launch Tool</button>
+                    </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 bg-gray-50 dark:bg-gray-800">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 dark:text-white">
+                    About ToolNest
+                </h2>
+                <p class="text-lg text-gray-600 mb-6 dark:text-gray-300">
+                    ToolNest is a comprehensive collection of free, practical tools designed to make your daily tasks easier and more efficient. 
+                    Whether you need to calculate percentages, convert units, generate passwords, or solve mathematical problems, 
+                    we've got you covered with our user-friendly, reliable tools.
+                </p>
+                <div class="mt-4 flex flex-col items-center gap-2">
+                  <div>
+                    <span class="font-semibold text-gray-700 dark:text-gray-200">Follow</span>
+                    <a href="https://www.instagram.com/_shubh.x7/" target="_blank" rel="noopener" class="inline-flex items-center text-pink-600 hover:text-pink-800 font-medium ml-2">
+                      <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5a5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5zm6.25.75a1 1 0 1 1-2 0a1 1 0 0 1 2 0z"/></svg>
+                      @shubh.x7
+                    </a>
+                  </div>
+                  <div class="text-gray-600 dark:text-gray-300 text-sm mt-1">DM me if you have any suggestion</div>
+                </div>
+                <div class="flex items-center justify-center mt-6">
+                  <a href="https://www.instagram.com/_shubh.x7/" target="_blank" rel="noopener"
+                     class="flex items-center px-6 py-2 rounded-full font-semibold text-lg"
+                     style="background: linear-gradient(90deg, #ff512f 0%, #dd2476 50%, #1fa2ff 100%); box-shadow: 0 4px 16px 0 rgba(31,162,255,0.10);">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <rect width="18" height="18" x="3" y="3" rx="5" stroke="currentColor" stroke-width="2" fill="none"/>
+                      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                      <circle cx="17" cy="7" r="1.5" fill="currentColor"/>
+                    </svg>
+                    <span class="text-gray-900 font-bold tracking-wide" style="color:#2d3748;">_shubh.x7</span>
+                    <span class="ml-4 px-4 py-1 rounded-full bg-white bg-opacity-30 text-white font-semibold text-base" style="backdrop-filter: blur(2px);">Follow</span>
+                  </a>
+                </div>
+                <div class="text-gray-600 dark:text-gray-300 text-sm mt-1">DM me if you have any suggestion</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BMI Calculator Modal -->
+    <div id="bmi-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('bmi-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-green-700 dark:text-green-300">BMI Calculator</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Calculate your Body Mass Index and understand your health status.</p>
+        <div class="flex mb-4">
+          <button type="button" id="bmi-us-tab" class="flex-1 py-2 font-medium border-b-2 border-green-600 text-green-700 dark:text-green-300" onclick="switchBMITab('us')">US Units</button>
+          <button type="button" id="bmi-metric-tab" class="flex-1 py-2 font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400" onclick="switchBMITab('metric')">Metric Units</button>
+        </div>
+        <form id="bmi-calc-form" class="space-y-3">
+          <div class="flex space-x-4">
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Age</label>
+              <input type="number" id="bmi-age" min="2" max="120" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Gender</label>
+              <div class="flex space-x-2 mt-1">
+                <label class="inline-flex items-center"><input type="radio" name="bmi-gender" value="male" checked> <span class="ml-1">Male</span></label>
+                <label class="inline-flex items-center"><input type="radio" name="bmi-gender" value="female"> <span class="ml-1">Female</span></label>
+              </div>
+            </div>
+          </div>
+          <!-- US Units -->
+          <div id="bmi-us-fields">
+            <div class="flex space-x-2">
+              <div class="flex-1">
+                <label class="block text-xs font-medium mb-1">Height</label>
+                <div class="flex space-x-1">
+                  <input type="number" id="bmi-height-ft" min="0" placeholder="ft" class="w-1/2 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+                  <input type="number" id="bmi-height-in" min="0" max="11" placeholder="in" class="w-1/2 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+                </div>
+              </div>
+              <div class="flex-1">
+                <label class="block text-xs font-medium mb-1">Weight</label>
+                <input type="number" id="bmi-weight-lb" min="0" placeholder="lbs" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+              </div>
+            </div>
+          </div>
+          <!-- Metric Units -->
+          <div id="bmi-metric-fields" class="hidden">
+            <div class="flex space-x-2">
+              <div class="flex-1">
+                <label class="block text-xs font-medium mb-1">Height (cm)</label>
+                <input type="number" id="bmi-height-cm" min="0" placeholder="cm" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+              </div>
+              <div class="flex-1">
+                <label class="block text-xs font-medium mb-1">Weight (kg)</label>
+                <input type="number" id="bmi-weight-kg" min="0" placeholder="kg" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">Calculate</button>
+        </form>
+        <div id="bmi-result" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Unit Converter Modal -->
+    <div id="unit-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-lg w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('unit-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-purple-700 dark:text-purple-300">Unit Converter</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Convert between different units of length, temperature, area, volume, weight, and time.</p>
+        <div class="flex mb-4 space-x-2">
+          <button type="button" class="unit-tab px-2 py-1 rounded font-medium border-2 border-purple-600 bg-purple-600 text-white" data-category="length">Length</button>
+          <button type="button" class="unit-tab px-2 py-1 rounded font-medium border-2 border-transparent text-purple-700 dark:text-purple-300" data-category="temperature">Temperature</button>
+          <button type="button" class="unit-tab px-2 py-1 rounded font-medium border-2 border-transparent text-purple-700 dark:text-purple-300" data-category="area">Area</button>
+          <button type="button" class="unit-tab px-2 py-1 rounded font-medium border-2 border-transparent text-purple-700 dark:text-purple-300" data-category="volume">Volume</button>
+          <button type="button" class="unit-tab px-2 py-1 rounded font-medium border-2 border-transparent text-purple-700 dark:text-purple-300" data-category="weight">Weight</button>
+          <button type="button" class="unit-tab px-2 py-1 rounded font-medium border-2 border-transparent text-purple-700 dark:text-purple-300" data-category="time">Time</button>
+        </div>
+        <form id="unit-converter-form" class="space-y-3">
+          <div class="flex space-x-4">
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">From:</label>
+              <input type="number" id="unit-from-value" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+              <select id="unit-from-unit" size="7" class="w-full border rounded-lg mt-1 dark:bg-gray-800 dark:border-gray-700"></select>
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">To:</label>
+              <input type="text" id="unit-to-value" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700 bg-gray-100 dark:bg-gray-700" readonly>
+              <select id="unit-to-unit" size="7" class="w-full border rounded-lg mt-1 dark:bg-gray-800 dark:border-gray-700"></select>
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">Convert</button>
+        </form>
+        <div id="unit-result" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Password Generator Modal -->
+    <div id="password-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('password-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-red-700 dark:text-red-300">Password Generator</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Generate strong, secure passwords with customizable options.</p>
+        <form id="password-gen-form" class="space-y-3">
+          <div>
+            <label class="block text-xs font-medium mb-1">Password Length</label>
+            <input type="number" id="password-length" min="4" max="64" value="12" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <label class="inline-flex items-center"><input type="checkbox" id="pw-upper" checked> <span class="ml-1">Uppercase</span></label>
+            <label class="inline-flex items-center"><input type="checkbox" id="pw-lower" checked> <span class="ml-1">Lowercase</span></label>
+            <label class="inline-flex items-center"><input type="checkbox" id="pw-number" checked> <span class="ml-1">Numbers</span></label>
+            <label class="inline-flex items-center"><input type="checkbox" id="pw-symbol" checked> <span class="ml-1">Symbols</span></label>
+          </div>
+          <button type="submit" class="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">Generate Password</button>
+        </form>
+        <div class="mt-4 flex items-center gap-2">
+          <input type="text" id="generated-password" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700 bg-gray-100 dark:bg-gray-700" readonly>
+          <button id="copy-password-btn" class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600" title="Copy"><svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-7 8h6a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></button>
+        </div>
+        <div id="password-gen-result" class="mt-2 text-green-600 dark:text-green-400 text-sm font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Text Case Converter Modal -->
+    <div id="textcase-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-lg w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('textcase-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-indigo-700 dark:text-indigo-300">Text Case Converter</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Convert text between different cases like uppercase, lowercase, title case, and more.</p>
+        <div>
+          <label class="block text-xs font-medium mb-1">Enter Text</label>
+          <textarea id="textcase-input" rows="4" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700 mb-2"></textarea>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-2">
+          <button type="button" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700" onclick="convertTextCase('upper')">UPPERCASE</button>
+          <button type="button" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700" onclick="convertTextCase('lower')">lowercase</button>
+          <button type="button" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700" onclick="convertTextCase('title')">Title Case</button>
+          <button type="button" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700" onclick="convertTextCase('sentence')">Sentence case</button>
+          <button type="button" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700" onclick="convertTextCase('capitalize')">Capitalized</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <textarea id="textcase-output" rows="3" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700 bg-gray-100 dark:bg-gray-700" readonly></textarea>
+          <button id="copy-textcase-btn" class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600" title="Copy"><svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-7 8h6a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></button>
+        </div>
+        <div id="textcase-result" class="mt-2 text-green-600 dark:text-green-400 text-sm font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Random Number Generator Modal -->
+    <div id="random-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('random-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-yellow-700 dark:text-yellow-300">Random Number Generator</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Generate random numbers within a specified range.</p>
+        <form id="random-gen-form" class="space-y-3">
+          <div class="flex space-x-2">
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Minimum</label>
+              <input type="number" id="random-min" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Maximum</label>
+              <input type="number" id="random-max" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">Generate</button>
+        </form>
+        <div class="mt-4 flex items-center gap-2">
+          <input type="text" id="random-result" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 text-center text-lg font-bold" readonly>
+          <button id="copy-random-btn" class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600" title="Copy"><svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-7 8h6a2 2 0 002-2V6a2 2 0 00-2-2H8a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></button>
+        </div>
+        <div id="random-gen-result" class="mt-2 text-green-600 dark:text-green-400 text-sm font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Date Difference Calculator Modal -->
+    <div id="datediff-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('datediff-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-teal-700 dark:text-teal-300">Date Difference Calculator</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Calculate the exact difference between two dates.</p>
+        <form id="datediff-form" class="space-y-3">
+          <div>
+            <label class="block text-xs font-medium mb-1">Start Date</label>
+            <input type="date" id="datediff-start" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1">End Date</label>
+            <input type="date" id="datediff-end" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+          </div>
+          <button type="submit" class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors">Calculate</button>
+        </form>
+        <div id="datediff-result" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Days Until Countdown Modal -->
+    <div id="countdown-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('countdown-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-orange-700 dark:text-orange-300">Days Until Countdown</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Count down the days until a specific event or date.</p>
+        <form id="countdown-form" class="space-y-3">
+          <div>
+            <label class="block text-xs font-medium mb-1">Target Date</label>
+            <input type="date" id="countdown-target" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+          </div>
+          <button type="submit" class="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">Calculate</button>
+        </form>
+        <div id="countdown-result" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Percentage Calculator Modal -->
+    <div id="percent-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-lg w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('percent-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-pink-700 dark:text-pink-300">Percentage Calculator</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Calculate percentages, find values, and solve percentage problems.</p>
+        <!-- General Percentage Calculator -->
+        <form id="percent-general-form" class="mb-4 flex flex-col gap-2">
+          <div class="flex items-center gap-2">
+            <input type="number" id="percent-x" class="w-16 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" placeholder="%">
+            <span>of</span>
+            <input type="number" id="percent-y" class="w-24 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" placeholder="value">
+            <span>=</span>
+            <input type="number" id="percent-z" class="w-24 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" placeholder="result">
+          </div>
+          <div class="flex gap-2">
+            <button type="button" id="percent-general-calc" class="bg-pink-600 text-white px-4 py-1 rounded hover:bg-pink-700">Calculate</button>
+            <button type="button" id="percent-general-clear" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600">Clear</button>
+          </div>
+          <div id="percent-general-result" class="text-green-600 dark:text-green-400 text-sm font-medium"></div>
+        </form>
+        <!-- Common Phrase Calculators -->
+        <div class="mb-4">
+          <h3 class="font-semibold mb-2 text-base text-pink-700 dark:text-pink-300">Percentage Calculator in Common Phrases</h3>
+          <form id="percent-phrase1" class="flex items-center gap-2 mb-2">
+            <span>what is</span>
+            <input type="number" id="phrase1-x" class="w-16 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            <span>% of</span>
+            <input type="number" id="phrase1-y" class="w-24 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            <button type="button" class="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700">Calculate</button>
+            <span id="phrase1-result" class="ml-2 text-green-600 dark:text-green-400 font-medium"></span>
+          </form>
+          <form id="percent-phrase2" class="flex items-center gap-2 mb-2">
+            <input type="number" id="phrase2-x" class="w-16 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            <span>is what % of</span>
+            <input type="number" id="phrase2-y" class="w-24 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            <button type="button" class="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700">Calculate</button>
+            <span id="phrase2-result" class="ml-2 text-green-600 dark:text-green-400 font-medium"></span>
+          </form>
+          <form id="percent-phrase3" class="flex items-center gap-2">
+            <input type="number" id="phrase3-x" class="w-16 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            <span>is</span>
+            <input type="number" id="phrase3-y" class="w-16 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            <span>% of what</span>
+            <button type="button" class="bg-pink-600 text-white px-3 py-1 rounded hover:bg-pink-700">Calculate</button>
+            <span id="phrase3-result" class="ml-2 text-green-600 dark:text-green-400 font-medium"></span>
+          </form>
+        </div>
+        <!-- Percentage Difference Calculator -->
+        <div>
+          <h3 class="font-semibold mb-2 text-base text-pink-700 dark:text-pink-300">Percentage Difference Calculator</h3>
+          <form id="percent-diff-form" class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <span>Value 1</span>
+              <input type="number" id="diff-v1" class="w-24 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+              <span>Value 2</span>
+              <input type="number" id="diff-v2" class="w-24 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            </div>
+            <div class="flex gap-2">
+              <button type="button" id="percent-diff-calc" class="bg-pink-600 text-white px-4 py-1 rounded hover:bg-pink-700">Calculate</button>
+              <button type="button" id="percent-diff-clear" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600">Clear</button>
+            </div>
+            <div id="percent-diff-result" class="text-green-600 dark:text-green-400 text-sm font-medium"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interest Calculator Modal -->
+    <div id="interest-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('interest-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-emerald-700 dark:text-emerald-300">Interest Calculator</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Calculate simple and compound interest on loans and investments.</p>
+        <div class="flex mb-4">
+          <button type="button" id="simple-tab" class="flex-1 py-2 font-medium border-b-2 border-emerald-600 text-emerald-700 dark:text-emerald-300" onclick="switchInterestTab('simple')">Simple Interest</button>
+          <button type="button" id="compound-tab" class="flex-1 py-2 font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400" onclick="switchInterestTab('compound')">Compound Interest</button>
+        </div>
+        <!-- Simple Interest Form -->
+        <form id="simple-form" class="space-y-3">
+          <div class="flex gap-2">
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Principal</label>
+              <input type="number" id="simple-principal" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Rate (%)</label>
+              <input type="number" id="simple-rate" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Time (years)</label>
+              <input type="number" id="simple-time" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button type="button" id="simple-calc" class="bg-emerald-600 text-white px-4 py-1 rounded hover:bg-emerald-700">Calculate</button>
+            <button type="button" id="simple-clear" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600">Clear</button>
+          </div>
+          <div id="simple-result" class="text-green-600 dark:text-green-400 text-sm font-medium"></div>
+        </form>
+        <!-- Compound Interest Form -->
+        <form id="compound-form" class="space-y-3 hidden">
+          <div class="flex gap-2">
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Principal</label>
+              <input type="number" id="compound-principal" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Rate (%)</label>
+              <input type="number" id="compound-rate" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Time (years)</label>
+              <input type="number" id="compound-time" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs font-medium mb-1">Compounds/year</label>
+              <input type="number" id="compound-n" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" value="1" required>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button type="button" id="compound-calc" class="bg-emerald-600 text-white px-4 py-1 rounded hover:bg-emerald-700">Calculate</button>
+            <button type="button" id="compound-clear" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600">Clear</button>
+          </div>
+          <div id="compound-result" class="text-green-600 dark:text-green-400 text-sm font-medium"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Time Zone Converter Modal -->
+    <div id="timezone-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('timezone-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-cyan-700 dark:text-cyan-300">Time Zone Converter</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Convert time between different time zones around the world.</p>
+        <form id="timezone-form" class="space-y-3">
+          <div>
+            <label class="block text-xs font-medium mb-1">From Time Zone</label>
+            <select id="timezone-from" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1">To Time Zone</label>
+            <select id="timezone-to" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1">Date & Time</label>
+            <input type="datetime-local" id="timezone-datetime" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+          </div>
+          <button type="submit" class="w-full bg-cyan-600 text-white py-2 px-4 rounded-lg hover:bg-cyan-700 transition-colors">Convert</button>
+        </form>
+        <div id="timezone-result" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Scientific Calculator Modal -->
+    <div id="scientific-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-2xl w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('scientific-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-300">Scientific Calculator</h2>
+        <div class="bg-gray-900 text-white rounded-lg mb-4 p-4 text-right text-3xl font-mono" id="sci-display">0</div>
+        <div class="grid grid-cols-8 gap-2">
+          <button class="sci-btn" data-fn="sin">sin</button>
+          <button class="sci-btn" data-fn="cos">cos</button>
+          <button class="sci-btn" data-fn="tan">tan</button>
+          <button class="sci-btn" data-fn="(">(</button>
+          <button class="sci-btn" data-fn=")">)</button>
+          <button class="sci-btn" data-fn="7">7</button>
+          <button class="sci-btn" data-fn="8">8</button>
+          <button class="sci-btn" data-fn="9">9</button>
+          <button class="sci-btn" data-fn="+">+</button>
+          <button class="sci-btn" data-fn="back" style="background:#f3e8e1;">⌫</button>
+          <button class="sci-btn" data-fn="asin">sin⁻¹</button>
+          <button class="sci-btn" data-fn="acos">cos⁻¹</button>
+          <button class="sci-btn" data-fn="atan">tan⁻¹</button>
+          <button class="sci-btn" data-fn="pi">π</button>
+          <button class="sci-btn" data-fn="e">e</button>
+          <button class="sci-btn" data-fn="4">4</button>
+          <button class="sci-btn" data-fn="5">5</button>
+          <button class="sci-btn" data-fn="6">6</button>
+          <button class="sci-btn" data-fn="-">-</button>
+          <button class="sci-btn" data-fn="ans">Ans</button>
+          <button class="sci-btn" data-fn="pow">xʸ</button>
+          <button class="sci-btn" data-fn="pow3">x³</button>
+          <button class="sci-btn" data-fn="pow2">x²</button>
+          <button class="sci-btn" data-fn="exp">eˣ</button>
+          <button class="sci-btn" data-fn="tenx">10ˣ</button>
+          <button class="sci-btn" data-fn="1">1</button>
+          <button class="sci-btn" data-fn="2">2</button>
+          <button class="sci-btn" data-fn="3">3</button>
+          <button class="sci-btn" data-fn="*">×</button>
+          <button class="sci-btn" data-fn="mplus">M+</button>
+          <button class="sci-btn" data-fn="root">ʸ√x</button>
+          <button class="sci-btn" data-fn="cbrt">³√x</button>
+          <button class="sci-btn" data-fn="sqrt">√x</button>
+          <button class="sci-btn" data-fn="ln">ln</button>
+          <button class="sci-btn" data-fn="log">log</button>
+          <button class="sci-btn" data-fn="0">0</button>
+          <button class="sci-btn" data-fn=".">.</button>
+          <button class="sci-btn" data-fn="neg">±</button>
+          <button class="sci-btn" data-fn="/">÷</button>
+          <button class="sci-btn" data-fn="mminus">M-</button>
+          <button class="sci-btn" data-fn="deg" id="deg-btn">Deg</button>
+          <button class="sci-btn" data-fn="rad" id="rad-btn">Rad</button>
+          <button class="sci-btn" data-fn="inv">1/x</button>
+          <button class="sci-btn" data-fn="%">%</button>
+          <button class="sci-btn" data-fn="fact">n!</button>
+          <button class="sci-btn" data-fn="exp10">EXP</button>
+          <button class="sci-btn" data-fn="rnd">RND</button>
+          <button class="sci-btn" data-fn="ac" style="background:#f3e8e1;">AC</button>
+          <button class="sci-btn col-span-2" data-fn="eq" style="background:#2563eb;color:white;">=</button>
+          <button class="sci-btn" data-fn="mr">MR</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quadratic Equation Solver Modal -->
+    <div id="quadratic-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('quadratic-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-green-700 dark:text-green-300">Quadratic Formula Calculator</h2>
+        <div class="mb-2 text-center">
+          <span class="block text-lg font-semibold">Quadratic Formula Calculator</span>
+          <span class="block my-2 text-xl font-mono">ax<sup>2</sup> + bx + c = 0</span>
+        </div>
+        <form id="quadratic-form" class="space-y-3">
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <label class="w-8">a =</label>
+              <input type="number" id="quad-a" class="flex-1 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="w-8">b =</label>
+              <input type="number" id="quad-b" class="flex-1 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="w-8">c =</label>
+              <input type="number" id="quad-c" class="flex-1 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-2">
+            <button type="button" id="quad-clear" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600">Clear</button>
+            <button type="submit" class="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">Calculate</button>
+          </div>
+          <div id="quad-result" class="mt-2 text-green-700 dark:text-green-300 text-base font-medium"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Mole Calculator Modal -->
+    <div id="mole-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('mole-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-purple-700 dark:text-purple-300">Mole Calculator (Chem)</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Calculate moles, mass, or molar mass for chemical compounds. Leave one field blank to calculate it.</p>
+        <form id="mole-form" class="space-y-3">
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <label class="w-28">Mass (g) =</label>
+              <input type="number" id="mole-mass" class="flex-1 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="w-28">Molar Mass (g/mol) =</label>
+              <input type="number" id="mole-molarmass" class="flex-1 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="w-28">Moles =</label>
+              <input type="number" id="mole-moles" class="flex-1 border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+            </div>
+          </div>
+          <div class="flex gap-2 mt-2">
+            <button type="button" id="mole-clear" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600">Clear</button>
+            <button type="submit" class="bg-purple-600 text-white px-4 py-1 rounded hover:bg-purple-700">Calculate</button>
+          </div>
+          <div id="mole-result" class="mt-2 text-purple-700 dark:text-purple-300 text-base font-medium"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Age Calculator Modal -->
+    <div id="age-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-md w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('age-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-blue-700 dark:text-blue-300">Age Calculator</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Calculate your exact age in years, months, weeks, days, hours, minutes, and seconds.</p>
+        <form id="age-calc-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1" for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" class="w-full border rounded-lg px-3 py-2 dark:bg-gray-800 dark:border-gray-700" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="target-date">Age at the Date of</label>
+            <input type="date" id="target-date" name="target-date" class="w-full border rounded-lg px-3 py-2 dark:bg-gray-800 dark:border-gray-700" required>
+          </div>
+          <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">Calculate</button>
+        </form>
+        <div id="age-result" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+      </div>
+    </div>
+
+    <!-- Periodic Table Search Tool Modal -->
+    <div id="periodic-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg max-w-3xl w-full p-6 relative animate-fade-in">
+        <button onclick="closeModal('periodic-modal')" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-2 text-red-700 dark:text-red-300">Periodic Table Search Tool</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-300 text-sm">Search and explore elements with detailed properties and information.</p>
+        <input type="text" id="periodic-search" placeholder="Search by name, symbol, or atomic number..." class="w-full border rounded-lg px-3 py-2 mb-4 dark:bg-gray-800 dark:border-gray-700">
+        <div class="grid grid-cols-6 gap-2 max-h-64 overflow-y-auto" id="periodic-grid"></div>
+        <div id="periodic-details" class="mt-4 text-gray-800 dark:text-gray-100 text-base font-medium"></div>
+      </div>
+    </div>
+
+    <script>
+      function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+
+      // Dark mode toggle logic
+      function setDarkMode(isDark) {
+        const html = document.documentElement;
+        if (isDark) {
+          html.classList.add('dark');
+          document.getElementById('dark-mode-icon').classList.add('hidden');
+          document.getElementById('light-mode-icon').classList.remove('hidden');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          html.classList.remove('dark');
+          document.getElementById('dark-mode-icon').classList.remove('hidden');
+          document.getElementById('light-mode-icon').classList.add('hidden');
+          localStorage.setItem('theme', 'light');
+        }
+      }
+
+      function toggleDarkMode() {
+        const isDark = !document.documentElement.classList.contains('dark');
+        setDarkMode(isDark);
+      }
+
+      // On page load, set theme from localStorage or system preference
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          setDarkMode(true);
+        } else {
+          setDarkMode(false);
+        }
+      })();
+
+      // Tool search functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-tools');
+        if (!searchInput) return;
+        searchInput.addEventListener('input', function() {
+          const query = this.value.trim().toLowerCase();
+          // Select all tool cards in both sections
+          const toolCards = document.querySelectorAll('.tool-card');
+          toolCards.forEach(card => {
+            const name = card.getAttribute('data-tool-name') || '';
+            const desc = card.querySelector('p')?.textContent || '';
+            if (
+              name.toLowerCase().includes(query) ||
+              desc.toLowerCase().includes(query)
+            ) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Modal open/close logic
+      function openModal(id) {
+        document.getElementById(id).classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      // BMI Modal tab switching
+      function switchBMITab(tab) {
+        const usTab = document.getElementById('bmi-us-tab');
+        const metricTab = document.getElementById('bmi-metric-tab');
+        const usFields = document.getElementById('bmi-us-fields');
+        const metricFields = document.getElementById('bmi-metric-fields');
+        if (tab === 'us') {
+          usTab.classList.add('border-green-600', 'text-green-700', 'dark:text-green-300');
+          usTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          metricTab.classList.remove('border-green-600', 'text-green-700', 'dark:text-green-300');
+          metricTab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          usFields.classList.remove('hidden');
+          metricFields.classList.add('hidden');
+        } else {
+          metricTab.classList.add('border-green-600', 'text-green-700', 'dark:text-green-300');
+          metricTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          usTab.classList.remove('border-green-600', 'text-green-700', 'dark:text-green-300');
+          usTab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          metricFields.classList.remove('hidden');
+          usFields.classList.add('hidden');
+        }
+      }
+
+      // BMI Calculation logic
+      const bmiForm = document.getElementById('bmi-calc-form');
+      if (bmiForm) {
+        bmiForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const age = parseInt(document.getElementById('bmi-age').value, 10);
+          const gender = bmiForm.querySelector('input[name="bmi-gender"]:checked').value;
+          let bmi = 0, heightM = 0, weightKg = 0, result = '';
+          let unit = 'us';
+          if (!document.getElementById('bmi-us-fields').classList.contains('hidden')) {
+            // US Units
+            const ft = parseInt(document.getElementById('bmi-height-ft').value, 10) || 0;
+            const inch = parseInt(document.getElementById('bmi-height-in').value, 10) || 0;
+            const lbs = parseFloat(document.getElementById('bmi-weight-lb').value) || 0;
+            heightM = ((ft * 12) + inch) * 0.0254;
+            weightKg = lbs * 0.45359237;
+            unit = 'us';
+          } else {
+            // Metric Units
+            const cm = parseFloat(document.getElementById('bmi-height-cm').value) || 0;
+            const kg = parseFloat(document.getElementById('bmi-weight-kg').value) || 0;
+            heightM = cm / 100;
+            weightKg = kg;
+            unit = 'metric';
+          }
+          if (heightM <= 0 || weightKg <= 0 || age < 2 || age > 120) {
+            document.getElementById('bmi-result').innerHTML = '<span class="text-red-600">Please enter valid values.</span>';
+            return;
+          }
+          bmi = weightKg / (heightM * heightM);
+          const bmiPrime = bmi / 25;
+          const ponderal = weightKg / Math.pow(heightM, 3);
+          // Category
+          let category = '', color = 'text-green-600';
+          if (bmi < 18.5) { category = 'Underweight'; color = 'text-yellow-500'; }
+          else if (bmi < 25) { category = 'Normal'; color = 'text-green-600'; }
+          else if (bmi < 30) { category = 'Overweight'; color = 'text-yellow-600'; }
+          else { category = 'Obesity'; color = 'text-red-600'; }
+          // Healthy range
+          const healthyMin = 18.5 * (heightM * heightM);
+          const healthyMax = 25 * (heightM * heightM);
+          // lbs for US
+          const healthyMinLbs = healthyMin / 0.45359237;
+          const healthyMaxLbs = healthyMax / 0.45359237;
+          // Result
+          result = `<div class="mb-2"><b>BMI = ${bmi.toFixed(1)} kg/m²</b> <span class="${color}">(${category})</span></div>` +
+            `<div class="mb-2">Healthy BMI range: 18.5 kg/m² - 25 kg/m²</div>` +
+            `<div class="mb-2">Healthy weight for the height: ` +
+            (unit === 'us'
+              ? `${healthyMinLbs.toFixed(1)} lbs - ${healthyMaxLbs.toFixed(1)} lbs`
+              : `${healthyMin.toFixed(1)} kg - ${healthyMax.toFixed(1)} kg`) +
+            `</div>` +
+            `<div class="mb-2">BMI Prime: ${bmiPrime.toFixed(2)}</div>` +
+            `<div class="mb-2">Ponderal Index: ${ponderal.toFixed(1)} kg/m³</div>`;
+          document.getElementById('bmi-result').innerHTML = result;
+        });
+      }
+
+      // Unit Converter Data and Logic
+      const unitCategories = {
+        length: {
+          units: [
+            { name: 'Meter', value: 'meter', factor: 1 },
+            { name: 'Kilometer', value: 'kilometer', factor: 1000 },
+            { name: 'Centimeter', value: 'centimeter', factor: 0.01 },
+            { name: 'Millimeter', value: 'millimeter', factor: 0.001 },
+            { name: 'Micrometer', value: 'micrometer', factor: 1e-6 },
+            { name: 'Nanometer', value: 'nanometer', factor: 1e-9 },
+            { name: 'Mile', value: 'mile', factor: 1609.344 },
+            { name: 'Yard', value: 'yard', factor: 0.9144 },
+            { name: 'Foot', value: 'foot', factor: 0.3048 },
+            { name: 'Inch', value: 'inch', factor: 0.0254 },
+            { name: 'Light Year', value: 'lightyear', factor: 9.4607e15 }
+          ]
+        },
+        temperature: {
+          units: [
+            { name: 'Celsius', value: 'celsius' },
+            { name: 'Fahrenheit', value: 'fahrenheit' },
+            { name: 'Kelvin', value: 'kelvin' }
+          ]
+        },
+        area: {
+          units: [
+            { name: 'Square Meter', value: 'sqm', factor: 1 },
+            { name: 'Square Kilometer', value: 'sqkm', factor: 1e6 },
+            { name: 'Square Centimeter', value: 'sqcm', factor: 0.0001 },
+            { name: 'Square Millimeter', value: 'sqmm', factor: 1e-6 },
+            { name: 'Square Mile', value: 'sqmile', factor: 2.59e6 },
+            { name: 'Square Yard', value: 'sqyard', factor: 0.836127 },
+            { name: 'Square Foot', value: 'sqft', factor: 0.092903 },
+            { name: 'Square Inch', value: 'sqin', factor: 0.00064516 },
+            { name: 'Hectare', value: 'hectare', factor: 10000 },
+            { name: 'Acre', value: 'acre', factor: 4046.86 }
+          ]
+        },
+        volume: {
+          units: [
+            { name: 'Cubic Meter', value: 'cbm', factor: 1 },
+            { name: 'Liter', value: 'liter', factor: 0.001 },
+            { name: 'Milliliter', value: 'milliliter', factor: 1e-6 },
+            { name: 'Cubic Centimeter', value: 'cbcm', factor: 1e-6 },
+            { name: 'Cubic Millimeter', value: 'cbmm', factor: 1e-9 },
+            { name: 'Cubic Foot', value: 'cbft', factor: 0.0283168 },
+            { name: 'Cubic Inch', value: 'cbin', factor: 1.6387e-5 },
+            { name: 'Gallon (US)', value: 'gallon', factor: 0.00378541 },
+            { name: 'Quart (US)', value: 'quart', factor: 0.000946353 },
+            { name: 'Pint (US)', value: 'pint', factor: 0.000473176 },
+            { name: 'Cup (US)', value: 'cup', factor: 0.000236588 },
+            { name: 'Fluid Ounce (US)', value: 'fl_oz', factor: 2.9574e-5 }
+          ]
+        },
+        weight: {
+          units: [
+            { name: 'Kilogram', value: 'kg', factor: 1 },
+            { name: 'Gram', value: 'g', factor: 0.001 },
+            { name: 'Milligram', value: 'mg', factor: 1e-6 },
+            { name: 'Metric Ton', value: 'ton', factor: 1000 },
+            { name: 'Pound', value: 'lb', factor: 0.453592 },
+            { name: 'Ounce', value: 'oz', factor: 0.0283495 },
+            { name: 'Stone', value: 'stone', factor: 6.35029 }
+          ]
+        },
+        time: {
+          units: [
+            { name: 'Second', value: 'second', factor: 1 },
+            { name: 'Millisecond', value: 'millisecond', factor: 0.001 },
+            { name: 'Minute', value: 'minute', factor: 60 },
+            { name: 'Hour', value: 'hour', factor: 3600 },
+            { name: 'Day', value: 'day', factor: 86400 },
+            { name: 'Week', value: 'week', factor: 604800 },
+            { name: 'Month (30d)', value: 'month', factor: 2592000 },
+            { name: 'Year', value: 'year', factor: 31536000 }
+          ]
+        }
+      };
+
+      function populateUnitSelects(category) {
+        const fromSelect = document.getElementById('unit-from-unit');
+        const toSelect = document.getElementById('unit-to-unit');
+        fromSelect.innerHTML = '';
+        toSelect.innerHTML = '';
+        unitCategories[category].units.forEach(u => {
+          const opt1 = document.createElement('option');
+          opt1.value = u.value;
+          opt1.textContent = u.name;
+          fromSelect.appendChild(opt1);
+          const opt2 = document.createElement('option');
+          opt2.value = u.value;
+          opt2.textContent = u.name;
+          toSelect.appendChild(opt2);
+        });
+        fromSelect.selectedIndex = 0;
+        toSelect.selectedIndex = 1;
+      }
+
+      function switchUnitTab(category) {
+        document.querySelectorAll('.unit-tab').forEach(btn => {
+          if (btn.dataset.category === category) {
+            btn.classList.add('bg-purple-600', 'text-white', 'border-purple-600');
+            btn.classList.remove('text-purple-700', 'dark:text-purple-300', 'border-transparent');
+          } else {
+            btn.classList.remove('bg-purple-600', 'text-white', 'border-purple-600');
+            btn.classList.add('text-purple-700', 'dark:text-purple-300', 'border-transparent');
+          }
+        });
+        populateUnitSelects(category);
+        document.getElementById('unit-from-value').value = '';
+        document.getElementById('unit-to-value').value = '';
+        document.getElementById('unit-result').innerHTML = '';
+      }
+
+      document.querySelectorAll('.unit-tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+          switchUnitTab(this.dataset.category);
+        });
+      });
+
+      // Initial population
+      populateUnitSelects('length');
+
+      // Conversion logic
+      function convertUnit(category, fromValue, fromUnit, toUnit) {
+        if (category === 'temperature') {
+          // Special case for temperature
+          if (fromUnit === toUnit) return fromValue;
+          let celsius;
+          if (fromUnit === 'celsius') celsius = fromValue;
+          else if (fromUnit === 'fahrenheit') celsius = (fromValue - 32) * 5/9;
+          else if (fromUnit === 'kelvin') celsius = fromValue - 273.15;
+          let result;
+          if (toUnit === 'celsius') result = celsius;
+          else if (toUnit === 'fahrenheit') result = celsius * 9/5 + 32;
+          else if (toUnit === 'kelvin') result = celsius + 273.15;
+          return result;
+        } else {
+          // All other categories use factor
+          const fromObj = unitCategories[category].units.find(u => u.value === fromUnit);
+          const toObj = unitCategories[category].units.find(u => u.value === toUnit);
+          if (!fromObj || !toObj) return null;
+          const base = fromValue * fromObj.factor;
+          return base / toObj.factor;
+        }
+      }
+
+      document.getElementById('unit-converter-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const category = document.querySelector('.unit-tab.bg-purple-600').dataset.category;
+        const fromValue = parseFloat(document.getElementById('unit-from-value').value);
+        const fromUnit = document.getElementById('unit-from-unit').value;
+        const toUnit = document.getElementById('unit-to-unit').value;
+        if (isNaN(fromValue)) {
+          document.getElementById('unit-result').innerHTML = '<span class="text-red-600">Please enter a valid number.</span>';
+          return;
+        }
+        const result = convertUnit(category, fromValue, fromUnit, toUnit);
+        if (result === null || isNaN(result)) {
+          document.getElementById('unit-result').innerHTML = '<span class="text-red-600">Conversion not possible.</span>';
+          document.getElementById('unit-to-value').value = '';
+          return;
+        }
+        document.getElementById('unit-to-value').value = result;
+        document.getElementById('unit-result').innerHTML = `<b>${fromValue}</b> ${document.getElementById('unit-from-unit').selectedOptions[0].textContent} = <b>${result}</b> ${document.getElementById('unit-to-unit').selectedOptions[0].textContent}`;
+      });
+
+      // Password Generator logic
+      function generatePassword(length, useUpper, useLower, useNumber, useSymbol) {
+        const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lower = 'abcdefghijklmnopqrstuvwxyz';
+        const number = '0123456789';
+        const symbol = '!@#$%^&*()_+-=[]{}|;:,.<>?/~';
+        let chars = '';
+        if (useUpper) chars += upper;
+        if (useLower) chars += lower;
+        if (useNumber) chars += number;
+        if (useSymbol) chars += symbol;
+        if (!chars) return '';
+        let password = '';
+        for (let i = 0; i < length; i++) {
+          password += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return password;
+      }
+
+      document.getElementById('password-gen-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const length = parseInt(document.getElementById('password-length').value, 10);
+        const useUpper = document.getElementById('pw-upper').checked;
+        const useLower = document.getElementById('pw-lower').checked;
+        const useNumber = document.getElementById('pw-number').checked;
+        const useSymbol = document.getElementById('pw-symbol').checked;
+        const password = generatePassword(length, useUpper, useLower, useNumber, useSymbol);
+        document.getElementById('generated-password').value = password;
+        document.getElementById('password-gen-result').textContent = password ? 'Password generated!' : 'Please select at least one character type.';
+      });
+
+      document.getElementById('copy-password-btn').addEventListener('click', function() {
+        const pw = document.getElementById('generated-password').value;
+        if (pw) {
+          navigator.clipboard.writeText(pw);
+          document.getElementById('password-gen-result').textContent = 'Copied to clipboard!';
+        }
+      });
+
+      // Text Case Converter logic
+      function convertTextCase(type) {
+        const input = document.getElementById('textcase-input').value;
+        let output = '';
+        switch (type) {
+          case 'upper':
+            output = input.toUpperCase();
+            break;
+          case 'lower':
+            output = input.toLowerCase();
+            break;
+          case 'title':
+            output = input.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+            break;
+          case 'sentence':
+            output = input.replace(/(^|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+            break;
+          case 'capitalize':
+            output = input.replace(/\b\w/g, (c) => c.toUpperCase());
+            break;
+          default:
+            output = input;
+        }
+        document.getElementById('textcase-output').value = output;
+        document.getElementById('textcase-result').textContent = 'Converted!';
+      }
+
+      document.getElementById('copy-textcase-btn').addEventListener('click', function() {
+        const txt = document.getElementById('textcase-output').value;
+        if (txt) {
+          navigator.clipboard.writeText(txt);
+          document.getElementById('textcase-result').textContent = 'Copied to clipboard!';
+        }
+      });
+
+      // Random Number Generator logic
+      function generateRandomNumber(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        if (min > max) return null;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      document.getElementById('random-gen-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const min = parseInt(document.getElementById('random-min').value, 10);
+        const max = parseInt(document.getElementById('random-max').value, 10);
+        const result = generateRandomNumber(min, max);
+        if (result === null || isNaN(result)) {
+          document.getElementById('random-result').value = '';
+          document.getElementById('random-gen-result').textContent = 'Please enter a valid range.';
+          return;
+        }
+        document.getElementById('random-result').value = result;
+        document.getElementById('random-gen-result').textContent = 'Random number generated!';
+      });
+
+      document.getElementById('copy-random-btn').addEventListener('click', function() {
+        const num = document.getElementById('random-result').value;
+        if (num) {
+          navigator.clipboard.writeText(num);
+          document.getElementById('random-gen-result').textContent = 'Copied to clipboard!';
+        }
+      });
+
+      // Date Difference Calculator logic
+      function calculateDateDifference(start, end) {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        if (endDate < startDate) return null;
+        let years = endDate.getFullYear() - startDate.getFullYear();
+        let months = endDate.getMonth() - startDate.getMonth();
+        let days = endDate.getDate() - startDate.getDate();
+        if (days < 0) {
+          months--;
+          days += new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
+        }
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+        const diffMs = endDate - startDate;
+        const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const weeks = Math.floor(totalDays / 7);
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor(diffMs / (1000 * 60));
+        const seconds = Math.floor(diffMs / 1000);
+        return { years, months, days, weeks, totalDays, hours, minutes, seconds };
+      }
+
+      document.getElementById('datediff-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const start = document.getElementById('datediff-start').value;
+        const end = document.getElementById('datediff-end').value;
+        const resultDiv = document.getElementById('datediff-result');
+        if (!start || !end) {
+          resultDiv.textContent = 'Please select both dates.';
+          return;
+        }
+        const diff = calculateDateDifference(start, end);
+        if (!diff) {
+          resultDiv.textContent = 'End date must be after start date.';
+          return;
+        }
+        resultDiv.innerHTML =
+          `<div><b>Years:</b> ${diff.years}, <b>Months:</b> ${diff.months}, <b>Days:</b> ${diff.days}</div>` +
+          `<div><b>Weeks:</b> ${diff.weeks}, <b>Total Days:</b> ${diff.totalDays}</div>` +
+          `<div><b>Hours:</b> ${diff.hours}, <b>Minutes:</b> ${diff.minutes}, <b>Seconds:</b> ${diff.seconds}</div>`;
+      });
+
+      // Days Until Countdown logic
+      function calculateCountdownDiff(target) {
+        const now = new Date();
+        const targetDate = new Date(target);
+        if (targetDate <= now) return null;
+        let diffMs = targetDate - now;
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        diffMs -= days * (1000 * 60 * 60 * 24);
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        diffMs -= hours * (1000 * 60 * 60);
+        const minutes = Math.floor(diffMs / (1000 * 60));
+        diffMs -= minutes * (1000 * 60);
+        const seconds = Math.floor(diffMs / 1000);
+        return { days, hours, minutes, seconds };
+      }
+
+      document.getElementById('countdown-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const target = document.getElementById('countdown-target').value;
+        const resultDiv = document.getElementById('countdown-result');
+        if (!target) {
+          resultDiv.textContent = 'Please select a target date.';
+          return;
+        }
+        const diff = calculateCountdownDiff(target);
+        if (!diff) {
+          resultDiv.textContent = 'Target date must be in the future.';
+          return;
+        }
+        resultDiv.innerHTML =
+          `<div><b>Days:</b> ${diff.days}, <b>Hours:</b> ${diff.hours}, <b>Minutes:</b> ${diff.minutes}, <b>Seconds:</b> ${diff.seconds}</div>`;
+      });
+
+      // Percentage Calculator logic
+      // General calculator: any two of three values
+      function percentGeneralCalc() {
+        const x = parseFloat(document.getElementById('percent-x').value);
+        const y = parseFloat(document.getElementById('percent-y').value);
+        const z = parseFloat(document.getElementById('percent-z').value);
+        let filled = [!isNaN(x), !isNaN(y), !isNaN(z)].filter(Boolean).length;
+        let result = '';
+        if (filled < 2) {
+          result = 'Please fill any two fields.';
+        } else if (isNaN(x)) {
+          document.getElementById('percent-x').value = ((z / y) * 100).toFixed(2);
+          result = `X = ${(z / y * 100).toFixed(2)}%`;
+        } else if (isNaN(y)) {
+          document.getElementById('percent-y').value = ((z / x) * 100).toFixed(2);
+          result = `Y = ${(z / x * 100).toFixed(2)}`;
+        } else if (isNaN(z)) {
+          document.getElementById('percent-z').value = ((x / 100) * y).toFixed(2);
+          result = `Z = ${(x / 100 * y).toFixed(2)}`;
+        } else {
+          result = 'Please leave one field empty to calculate.';
+        }
+        document.getElementById('percent-general-result').textContent = result;
+      }
+
+      document.getElementById('percent-general-calc').onclick = percentGeneralCalc;
+      document.getElementById('percent-general-clear').onclick = function() {
+        document.getElementById('percent-x').value = '';
+        document.getElementById('percent-y').value = '';
+        document.getElementById('percent-z').value = '';
+        document.getElementById('percent-general-result').textContent = '';
+      };
+
+      // Common phrase calculators
+      // 1. What is X% of Y?
+      document.querySelector('#percent-phrase1 button').onclick = function(e) {
+        e.preventDefault();
+        const x = parseFloat(document.getElementById('phrase1-x').value);
+        const y = parseFloat(document.getElementById('phrase1-y').value);
+        if (isNaN(x) || isNaN(y)) {
+          document.getElementById('phrase1-result').textContent = 'Enter both values.';
+          return;
+        }
+        document.getElementById('phrase1-result').textContent = (x / 100 * y).toFixed(2);
+      };
+      // 2. X is what % of Y?
+      document.querySelector('#percent-phrase2 button').onclick = function(e) {
+        e.preventDefault();
+        const x = parseFloat(document.getElementById('phrase2-x').value);
+        const y = parseFloat(document.getElementById('phrase2-y').value);
+        if (isNaN(x) || isNaN(y) || y === 0) {
+          document.getElementById('phrase2-result').textContent = 'Enter valid values.';
+          return;
+        }
+        document.getElementById('phrase2-result').textContent = ((x / y) * 100).toFixed(2) + '%';
+      };
+      // 3. X is Y% of what?
+      document.querySelector('#percent-phrase3 button').onclick = function(e) {
+        e.preventDefault();
+        const x = parseFloat(document.getElementById('phrase3-x').value);
+        const y = parseFloat(document.getElementById('phrase3-y').value);
+        if (isNaN(x) || isNaN(y) || y === 0) {
+          document.getElementById('phrase3-result').textContent = 'Enter valid values.';
+          return;
+        }
+        document.getElementById('phrase3-result').textContent = (x / (y / 100)).toFixed(2);
+      };
+
+      // Percentage Difference Calculator
+      function percentDiffCalc() {
+        const v1 = parseFloat(document.getElementById('diff-v1').value);
+        const v2 = parseFloat(document.getElementById('diff-v2').value);
+        if (isNaN(v1) || isNaN(v2) || (v1 === 0 && v2 === 0)) {
+          document.getElementById('percent-diff-result').textContent = 'Enter valid values.';
+          return;
+        }
+        const diff = Math.abs(v1 - v2);
+        const avg = (Math.abs(v1) + Math.abs(v2)) / 2;
+        const percentDiff = (diff / avg) * 100;
+        document.getElementById('percent-diff-result').textContent = percentDiff.toFixed(2) + '%';
+      }
+      document.getElementById('percent-diff-calc').onclick = percentDiffCalc;
+      document.getElementById('percent-diff-clear').onclick = function() {
+        document.getElementById('diff-v1').value = '';
+        document.getElementById('diff-v2').value = '';
+        document.getElementById('percent-diff-result').textContent = '';
+      };
+
+      // Interest Calculator logic
+      function switchInterestTab(tab) {
+        const simpleTab = document.getElementById('simple-tab');
+        const compoundTab = document.getElementById('compound-tab');
+        const simpleForm = document.getElementById('simple-form');
+        const compoundForm = document.getElementById('compound-form');
+        if (tab === 'simple') {
+          simpleTab.classList.add('border-emerald-600', 'text-emerald-700', 'dark:text-emerald-300');
+          simpleTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          compoundTab.classList.remove('border-emerald-600', 'text-emerald-700', 'dark:text-emerald-300');
+          compoundTab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          simpleForm.classList.remove('hidden');
+          compoundForm.classList.add('hidden');
+        } else {
+          compoundTab.classList.add('border-emerald-600', 'text-emerald-700', 'dark:text-emerald-300');
+          compoundTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          simpleTab.classList.remove('border-emerald-600', 'text-emerald-700', 'dark:text-emerald-300');
+          simpleTab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+          compoundForm.classList.remove('hidden');
+          simpleForm.classList.add('hidden');
+        }
+      }
+
+      document.getElementById('simple-calc').onclick = function() {
+        const p = parseFloat(document.getElementById('simple-principal').value);
+        const r = parseFloat(document.getElementById('simple-rate').value);
+        const t = parseFloat(document.getElementById('simple-time').value);
+        if (isNaN(p) || isNaN(r) || isNaN(t)) {
+          document.getElementById('simple-result').textContent = 'Enter all values.';
+          return;
+        }
+        const interest = (p * r * t) / 100;
+        const total = p + interest;
+        document.getElementById('simple-result').textContent = `Interest: ${interest.toFixed(2)}, Total: ${total.toFixed(2)}`;
+      };
+      document.getElementById('simple-clear').onclick = function() {
+        document.getElementById('simple-principal').value = '';
+        document.getElementById('simple-rate').value = '';
+        document.getElementById('simple-time').value = '';
+        document.getElementById('simple-result').textContent = '';
+      };
+
+      document.getElementById('compound-calc').onclick = function() {
+        const p = parseFloat(document.getElementById('compound-principal').value);
+        const r = parseFloat(document.getElementById('compound-rate').value);
+        const t = parseFloat(document.getElementById('compound-time').value);
+        const n = parseFloat(document.getElementById('compound-n').value);
+        if (isNaN(p) || isNaN(r) || isNaN(t) || isNaN(n) || n <= 0) {
+          document.getElementById('compound-result').textContent = 'Enter all values (n > 0).';
+          return;
+        }
+        const amount = p * Math.pow(1 + (r / (100 * n)), n * t);
+        const interest = amount - p;
+        document.getElementById('compound-result').textContent = `Interest: ${interest.toFixed(2)}, Total: ${amount.toFixed(2)}`;
+      };
+      document.getElementById('compound-clear').onclick = function() {
+        document.getElementById('compound-principal').value = '';
+        document.getElementById('compound-rate').value = '';
+        document.getElementById('compound-time').value = '';
+        document.getElementById('compound-n').value = '1';
+        document.getElementById('compound-result').textContent = '';
+      };
+
+      // Time Zone Converter logic
+      const timeZones = [
+        'UTC', 'America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles',
+        'Europe/London', 'Europe/Paris', 'Europe/Berlin', 'Europe/Moscow',
+        'Asia/Kolkata', 'Asia/Shanghai', 'Asia/Tokyo', 'Asia/Dubai',
+        'Australia/Sydney', 'Pacific/Auckland', 'Africa/Johannesburg', 'America/Sao_Paulo'
+      ];
+      function populateTimeZoneSelects() {
+        const from = document.getElementById('timezone-from');
+        const to = document.getElementById('timezone-to');
+        from.innerHTML = '';
+        to.innerHTML = '';
+        timeZones.forEach(tz => {
+          const opt1 = document.createElement('option');
+          opt1.value = tz;
+          opt1.textContent = tz;
+          from.appendChild(opt1);
+          const opt2 = document.createElement('option');
+          opt2.value = tz;
+          opt2.textContent = tz;
+          to.appendChild(opt2);
+        });
+        from.value = 'UTC';
+        to.value = 'Asia/Kolkata';
+      }
+      populateTimeZoneSelects();
+
+      document.getElementById('timezone-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const fromTz = document.getElementById('timezone-from').value;
+        const toTz = document.getElementById('timezone-to').value;
+        const dt = document.getElementById('timezone-datetime').value;
+        const resultDiv = document.getElementById('timezone-result');
+        if (!fromTz || !toTz || !dt) {
+          resultDiv.textContent = 'Please fill all fields.';
+          return;
+        }
+        // Parse input as local time in fromTz
+        const inputDate = new Date(dt);
+        // Convert to UTC
+        const utcDate = new Date(inputDate.toLocaleString('en-US', { timeZone: fromTz }));
+        // Convert UTC to target time zone
+        const options = { timeZone: toTz, year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const converted = new Intl.DateTimeFormat('en-US', options).format(utcDate);
+        resultDiv.textContent = `Converted Time: ${converted} (${toTz})`;
+      });
+
+      // Scientific Calculator logic
+      (function() {
+        let sciDisplay = document.getElementById('sci-display');
+        let expr = '';
+        let memory = 0;
+        let ans = 0;
+        let degMode = true;
+        function updateDisplay(val) {
+          sciDisplay.textContent = val;
+        }
+        function evalSci(expr) {
+          try {
+            // Replace constants and functions
+            let e = expr.replace(/π/g, 'Math.PI')
+              .replace(/e/g, 'Math.E')
+              .replace(/sin⁻¹/g, 'asin')
+              .replace(/cos⁻¹/g, 'acos')
+              .replace(/tan⁻¹/g, 'atan')
+              .replace(/ln/g, 'Math.log')
+              .replace(/log/g, 'Math.log10')
+              .replace(/√/g, 'Math.sqrt')
+              .replace(/Ans/g, ans)
+              .replace(/MR/g, memory);
+            // Custom functions
+            e = e.replace(/sin\(([^)]+)\)/g, (m, x) => `Math.sin(${degMode ? '(' + x + ')*Math.PI/180' : x})`)
+              .replace(/cos\(([^)]+)\)/g, (m, x) => `Math.cos(${degMode ? '(' + x + ')*Math.PI/180' : x})`)
+              .replace(/tan\(([^)]+)\)/g, (m, x) => `Math.tan(${degMode ? '(' + x + ')*Math.PI/180' : x})`)
+              .replace(/asin\(([^)]+)\)/g, (m, x) => degMode ? `(Math.asin(${x})*180/Math.PI)` : `Math.asin(${x})`)
+              .replace(/acos\(([^)]+)\)/g, (m, x) => degMode ? `(Math.acos(${x})*180/Math.PI)` : `Math.acos(${x})`)
+              .replace(/atan\(([^)]+)\)/g, (m, x) => degMode ? `(Math.atan(${x})*180/Math.PI)` : `Math.atan(${x})`)
+              .replace(/log10/g, 'Math.log10');
+            // Exponentiation
+            e = e.replace(/(\d+)\^([\d]+)/g, (m, a, b) => `Math.pow(${a},${b})`);
+            // Factorial
+            e = e.replace(/(\d+)!/g, (m, n) => `factorial(${n})`);
+            // Percent
+            e = e.replace(/(\d+)%/g, (m, n) => `(${n}/100)`);
+            // 1/x
+            e = e.replace(/1\/([\d.]+)/g, (m, n) => `(1/${n})`);
+            // n-th root
+            e = e.replace(/(\d+)\√(\d+)/g, (m, n, x) => `Math.pow(${x},1/${n})`);
+            // Cube root
+            e = e.replace(/3\√(\d+)/g, (m, x) => `Math.cbrt(${x})`);
+            // Random
+            e = e.replace(/RND/g, 'Math.random()');
+            // EXP
+            e = e.replace(/EXP/g, 'e');
+            // n!
+            function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }
+            // Evaluate
+            // eslint-disable-next-line no-new-func
+            return Function('factorial', 'return ' + e)(factorial);
+          } catch {
+            return 'Error';
+          }
+        }
+        function handleSciBtn(fn) {
+          if (fn === 'ac') { expr = ''; updateDisplay('0'); return; }
+          if (fn === 'back') { expr = expr.slice(0, -1); updateDisplay(expr || '0'); return; }
+          if (fn === 'eq') { let res = evalSci(expr); ans = res; updateDisplay(res); expr = ''; return; }
+          if (fn === 'ans') { expr += ans; updateDisplay(expr); return; }
+          if (fn === 'mplus') { memory += Number(sciDisplay.textContent) || 0; return; }
+          if (fn === 'mminus') { memory -= Number(sciDisplay.textContent) || 0; return; }
+          if (fn === 'mr') { expr += memory; updateDisplay(expr); return; }
+          if (fn === 'deg') { degMode = true; document.getElementById('deg-btn').classList.add('bg-blue-600','text-white'); document.getElementById('rad-btn').classList.remove('bg-blue-600','text-white'); return; }
+          if (fn === 'rad') { degMode = false; document.getElementById('rad-btn').classList.add('bg-blue-600','text-white'); document.getElementById('deg-btn').classList.remove('bg-blue-600','text-white'); return; }
+          if (fn === 'neg') { expr += '-'; updateDisplay(expr); return; }
+          if (fn === 'pow') { expr += '^'; updateDisplay(expr); return; }
+          if (fn === 'pow2') { expr += '^2'; updateDisplay(expr); return; }
+          if (fn === 'pow3') { expr += '^3'; updateDisplay(expr); return; }
+          if (fn === 'exp') { expr += 'e^'; updateDisplay(expr); return; }
+          if (fn === 'tenx') { expr += '10^'; updateDisplay(expr); return; }
+          if (fn === 'sqrt') { expr += '√'; updateDisplay(expr); return; }
+          if (fn === 'cbrt') { expr += '3√'; updateDisplay(expr); return; }
+          if (fn === 'root') { expr += 'y√'; updateDisplay(expr); return; }
+          if (fn === 'fact') { expr += '!'; updateDisplay(expr); return; }
+          if (fn === 'inv') { expr += '1/'; updateDisplay(expr); return; }
+          if (fn === 'exp10') { expr += 'EXP'; updateDisplay(expr); return; }
+          if (fn === 'rnd') { expr += 'RND'; updateDisplay(expr); return; }
+          if (fn === 'pi') { expr += 'π'; updateDisplay(expr); return; }
+          if (fn === 'e') { expr += 'e'; updateDisplay(expr); return; }
+          if (fn === '%') { expr += '%'; updateDisplay(expr); return; }
+          if (fn === 'sin' || fn === 'cos' || fn === 'tan' || fn === 'asin' || fn === 'acos' || fn === 'atan' || fn === 'ln' || fn === 'log') { expr += fn + '('; updateDisplay(expr); return; }
+          expr += fn;
+          updateDisplay(expr);
+        }
+        document.querySelectorAll('#scientific-modal .sci-btn').forEach(btn => {
+          btn.onclick = () => handleSciBtn(btn.getAttribute('data-fn'));
+        });
+      })();
+
+      // Quadratic Equation Solver logic
+      function solveQuadratic(a, b, c) {
+        if (a === 0) return 'a cannot be 0.';
+        const D = b * b - 4 * a * c;
+        let result = `<div>Discriminant (D) = ${D}</div>`;
+        if (D > 0) {
+          const x1 = (-b + Math.sqrt(D)) / (2 * a);
+          const x2 = (-b - Math.sqrt(D)) / (2 * a);
+          result += `<div>Two real roots:</div><div>x₁ = ${x1.toFixed(4)}</div><div>x₂ = ${x2.toFixed(4)}</div>`;
+        } else if (D === 0) {
+          const x = -b / (2 * a);
+          result += `<div>One real root:</div><div>x = ${x.toFixed(4)}</div>`;
+        } else {
+          const real = (-b / (2 * a)).toFixed(4);
+          const imag = (Math.sqrt(-D) / (2 * a)).toFixed(4);
+          result += `<div>Two complex roots:</div><div>x₁ = ${real} + ${imag}i</div><div>x₂ = ${real} - ${imag}i</div>`;
+        }
+        return result;
+      }
+
+      document.getElementById('quadratic-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const a = parseFloat(document.getElementById('quad-a').value);
+        const b = parseFloat(document.getElementById('quad-b').value);
+        const c = parseFloat(document.getElementById('quad-c').value);
+        const resultDiv = document.getElementById('quad-result');
+        if (isNaN(a) || isNaN(b) || isNaN(c)) {
+          resultDiv.textContent = 'Please enter all values.';
+          return;
+        }
+        resultDiv.innerHTML = solveQuadratic(a, b, c);
+      });
+      document.getElementById('quad-clear').onclick = function() {
+        document.getElementById('quad-a').value = '';
+        document.getElementById('quad-b').value = '';
+        document.getElementById('quad-c').value = '';
+        document.getElementById('quad-result').textContent = '';
+      };
+
+      // Mole Calculator logic
+      function solveMole(mass, molarMass, moles) {
+        let result = '';
+        if (isNaN(mass) && !isNaN(molarMass) && !isNaN(moles)) {
+          // Calculate mass
+          const massVal = molarMass * moles;
+          result = `Mass = Molar Mass × Moles = ${molarMass} × ${moles} = <b>${massVal.toFixed(4)} g</b>`;
+          document.getElementById('mole-mass').value = massVal.toFixed(4);
+        } else if (!isNaN(mass) && isNaN(molarMass) && !isNaN(moles)) {
+          // Calculate molar mass
+          if (moles === 0) return 'Moles cannot be zero.';
+          const mmVal = mass / moles;
+          result = `Molar Mass = Mass / Moles = ${mass} / ${moles} = <b>${mmVal.toFixed(4)} g/mol</b>`;
+          document.getElementById('mole-molarmass').value = mmVal.toFixed(4);
+        } else if (!isNaN(mass) && !isNaN(molarMass) && isNaN(moles)) {
+          // Calculate moles
+          if (molarMass === 0) return 'Molar mass cannot be zero.';
+          const molesVal = mass / molarMass;
+          result = `Moles = Mass / Molar Mass = ${mass} / ${molarMass} = <b>${molesVal.toFixed(4)} mol</b>`;
+          document.getElementById('mole-moles').value = molesVal.toFixed(4);
+        } else {
+          result = 'Leave one field blank to calculate it (and fill the other two).';
+        }
+        return result;
+      }
+
+      document.getElementById('mole-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const mass = parseFloat(document.getElementById('mole-mass').value);
+        const molarMass = parseFloat(document.getElementById('mole-molarmass').value);
+        const moles = parseFloat(document.getElementById('mole-moles').value);
+        const resultDiv = document.getElementById('mole-result');
+        resultDiv.innerHTML = solveMole(mass, molarMass, moles);
+      });
+      document.getElementById('mole-clear').onclick = function() {
+        document.getElementById('mole-mass').value = '';
+        document.getElementById('mole-molarmass').value = '';
+        document.getElementById('mole-moles').value = '';
+        document.getElementById('mole-result').textContent = '';
+      };
+
+      // Age Calculator logic
+      function calculateAge(dob, target) {
+        const birthDate = new Date(dob);
+        const targetDate = new Date(target);
+        if (targetDate < birthDate) return 'Target date must be after date of birth.';
+        let years = targetDate.getFullYear() - birthDate.getFullYear();
+        let months = targetDate.getMonth() - birthDate.getMonth();
+        let days = targetDate.getDate() - birthDate.getDate();
+        if (days < 0) {
+          months--;
+          days += new Date(targetDate.getFullYear(), targetDate.getMonth(), 0).getDate();
+        }
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+        const diffMs = targetDate - birthDate;
+        const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const weeks = Math.floor(totalDays / 7);
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor(diffMs / (1000 * 60));
+        const seconds = Math.floor(diffMs / 1000);
+        return (
+          `<div><b>Years:</b> ${years}, <b>Months:</b> ${months}, <b>Days:</b> ${days}</div>` +
+          `<div><b>Weeks:</b> ${weeks}, <b>Total Days:</b> ${totalDays}</div>` +
+          `<div><b>Hours:</b> ${hours}, <b>Minutes:</b> ${minutes}, <b>Seconds:</b> ${seconds}</div>`
+        );
+      }
+
+      document.getElementById('age-calc-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const dob = document.getElementById('dob').value;
+        const target = document.getElementById('target-date').value;
+        const resultDiv = document.getElementById('age-result');
+        if (!dob || !target) {
+          resultDiv.textContent = 'Please select both dates.';
+          return;
+        }
+        resultDiv.innerHTML = calculateAge(dob, target);
+      });
+
+      // Periodic Table Search Tool logic
+      const periodicElements = [
+        {num: 1, symbol: 'H', name: 'Hydrogen', mass: 1.008, group: 1, period: 1, category: 'Nonmetal'},
+        {num: 2, symbol: 'He', name: 'Helium', mass: 4.0026, group: 18, period: 1, category: 'Noble Gas'},
+        {num: 3, symbol: 'Li', name: 'Lithium', mass: 6.94, group: 1, period: 2, category: 'Alkali Metal'},
+        {num: 4, symbol: 'Be', name: 'Beryllium', mass: 9.0122, group: 2, period: 2, category: 'Alkaline Earth Metal'},
+        {num: 5, symbol: 'B', name: 'Boron', mass: 10.81, group: 13, period: 2, category: 'Metalloid'},
+        {num: 6, symbol: 'C', name: 'Carbon', mass: 12.011, group: 14, period: 2, category: 'Nonmetal'},
+        {num: 7, symbol: 'N', name: 'Nitrogen', mass: 14.007, group: 15, period: 2, category: 'Nonmetal'},
+        {num: 8, symbol: 'O', name: 'Oxygen', mass: 15.999, group: 16, period: 2, category: 'Nonmetal'},
+        {num: 9, symbol: 'F', name: 'Fluorine', mass: 18.998, group: 17, period: 2, category: 'Halogen'},
+        {num: 10, symbol: 'Ne', name: 'Neon', mass: 20.180, group: 18, period: 2, category: 'Noble Gas'},
+        {num: 11, symbol: 'Na', name: 'Sodium', mass: 22.990, group: 1, period: 3, category: 'Alkali Metal'},
+        {num: 12, symbol: 'Mg', name: 'Magnesium', mass: 24.305, group: 2, period: 3, category: 'Alkaline Earth Metal'},
+        {num: 13, symbol: 'Al', name: 'Aluminum', mass: 26.982, group: 13, period: 3, category: 'Post-transition Metal'},
+        {num: 14, symbol: 'Si', name: 'Silicon', mass: 28.085, group: 14, period: 3, category: 'Metalloid'},
+        {num: 15, symbol: 'P', name: 'Phosphorus', mass: 30.974, group: 15, period: 3, category: 'Nonmetal'},
+        {num: 16, symbol: 'S', name: 'Sulfur', mass: 32.06, group: 16, period: 3, category: 'Nonmetal'},
+        {num: 17, symbol: 'Cl', name: 'Chlorine', mass: 35.45, group: 17, period: 3, category: 'Halogen'},
+        {num: 18, symbol: 'Ar', name: 'Argon', mass: 39.948, group: 18, period: 3, category: 'Noble Gas'},
+        {num: 19, symbol: 'K', name: 'Potassium', mass: 39.098, group: 1, period: 4, category: 'Alkali Metal'},
+        {num: 20, symbol: 'Ca', name: 'Calcium', mass: 40.078, group: 2, period: 4, category: 'Alkaline Earth Metal'},
+        {num: 21, symbol: 'Sc', name: 'Scandium', mass: 44.956, group: 3, period: 4, category: 'Transition Metal'},
+        {num: 22, symbol: 'Ti', name: 'Titanium', mass: 47.867, group: 4, period: 4, category: 'Transition Metal'},
+        {num: 23, symbol: 'V', name: 'Vanadium', mass: 50.942, group: 5, period: 4, category: 'Transition Metal'},
+        {num: 24, symbol: 'Cr', name: 'Chromium', mass: 51.996, group: 6, period: 4, category: 'Transition Metal'},
+        {num: 25, symbol: 'Mn', name: 'Manganese', mass: 54.938, group: 7, period: 4, category: 'Transition Metal'},
+        {num: 26, symbol: 'Fe', name: 'Iron', mass: 55.845, group: 8, period: 4, category: 'Transition Metal'},
+        {num: 27, symbol: 'Co', name: 'Cobalt', mass: 58.933, group: 9, period: 4, category: 'Transition Metal'},
+        {num: 28, symbol: 'Ni', name: 'Nickel', mass: 58.693, group: 10, period: 4, category: 'Transition Metal'},
+        {num: 29, symbol: 'Cu', name: 'Copper', mass: 63.546, group: 11, period: 4, category: 'Transition Metal'},
+        {num: 30, symbol: 'Zn', name: 'Zinc', mass: 65.38, group: 12, period: 4, category: 'Transition Metal'},
+        {num: 31, symbol: 'Ga', name: 'Gallium', mass: 69.723, group: 13, period: 4, category: 'Post-transition Metal'},
+        {num: 32, symbol: 'Ge', name: 'Germanium', mass: 72.630, group: 14, period: 4, category: 'Metalloid'},
+        {num: 33, symbol: 'As', name: 'Arsenic', mass: 74.922, group: 15, period: 4, category: 'Metalloid'},
+        {num: 34, symbol: 'Se', name: 'Selenium', mass: 78.971, group: 16, period: 4, category: 'Nonmetal'},
+        {num: 35, symbol: 'Br', name: 'Bromine', mass: 79.904, group: 17, period: 4, category: 'Halogen'},
+        {num: 36, symbol: 'Kr', name: 'Krypton', mass: 83.798, group: 18, period: 4, category: 'Noble Gas'},
+        {num: 37, symbol: 'Rb', name: 'Rubidium', mass: 85.468, group: 1, period: 5, category: 'Alkali Metal'},
+        {num: 38, symbol: 'Sr', name: 'Strontium', mass: 87.62, group: 2, period: 5, category: 'Alkaline Earth Metal'},
+        {num: 39, symbol: 'Y', name: 'Yttrium', mass: 88.906, group: 3, period: 5, category: 'Transition Metal'},
+        {num: 40, symbol: 'Zr', name: 'Zirconium', mass: 91.224, group: 4, period: 5, category: 'Transition Metal'},
+        {num: 41, symbol: 'Nb', name: 'Niobium', mass: 92.906, group: 5, period: 5, category: 'Transition Metal'},
+        {num: 42, symbol: 'Mo', name: 'Molybdenum', mass: 95.95, group: 6, period: 5, category: 'Transition Metal'},
+        {num: 43, symbol: 'Tc', name: 'Technetium', mass: 98, group: 7, period: 5, category: 'Transition Metal'},
+        {num: 44, symbol: 'Ru', name: 'Ruthenium', mass: 101.07, group: 8, period: 5, category: 'Transition Metal'},
+        {num: 45, symbol: 'Rh', name: 'Rhodium', mass: 102.91, group: 9, period: 5, category: 'Transition Metal'},
+        {num: 46, symbol: 'Pd', name: 'Palladium', mass: 106.42, group: 10, period: 5, category: 'Transition Metal'},
+        {num: 47, symbol: 'Ag', name: 'Silver', mass: 107.87, group: 11, period: 5, category: 'Transition Metal'},
+        {num: 48, symbol: 'Cd', name: 'Cadmium', mass: 112.41, group: 12, period: 5, category: 'Transition Metal'},
+        {num: 49, symbol: 'In', name: 'Indium', mass: 114.82, group: 13, period: 5, category: 'Post-transition Metal'},
+        {num: 50, symbol: 'Sn', name: 'Tin', mass: 118.71, group: 14, period: 5, category: 'Post-transition Metal'},
+        {num: 51, symbol: 'Sb', name: 'Antimony', mass: 121.76, group: 15, period: 5, category: 'Metalloid'},
+        {num: 52, symbol: 'Te', name: 'Tellurium', mass: 127.60, group: 16, period: 5, category: 'Metalloid'},
+        {num: 53, symbol: 'I', name: 'Iodine', mass: 126.90, group: 17, period: 5, category: 'Halogen'},
+        {num: 54, symbol: 'Xe', name: 'Xenon', mass: 131.29, group: 18, period: 5, category: 'Noble Gas'},
+        {num: 55, symbol: 'Cs', name: 'Cesium', mass: 132.91, group: 1, period: 6, category: 'Alkali Metal'},
+        {num: 56, symbol: 'Ba', name: 'Barium', mass: 137.33, group: 2, period: 6, category: 'Alkaline Earth Metal'},
+        {num: 57, symbol: 'La', name: 'Lanthanum', mass: 138.91, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 58, symbol: 'Ce', name: 'Cerium', mass: 140.12, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 59, symbol: 'Pr', name: 'Praseodymium', mass: 140.91, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 60, symbol: 'Nd', name: 'Neodymium', mass: 144.24, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 61, symbol: 'Pm', name: 'Promethium', mass: 145, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 62, symbol: 'Sm', name: 'Samarium', mass: 150.36, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 63, symbol: 'Eu', name: 'Europium', mass: 151.98, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 64, symbol: 'Gd', name: 'Gadolinium', mass: 157.25, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 65, symbol: 'Tb', name: 'Terbium', mass: 158.93, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 66, symbol: 'Dy', name: 'Dysprosium', mass: 162.50, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 67, symbol: 'Ho', name: 'Holmium', mass: 164.93, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 68, symbol: 'Er', name: 'Erbium', mass: 167.26, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 69, symbol: 'Tm', name: 'Thulium', mass: 168.93, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 70, symbol: 'Yb', name: 'Ytterbium', mass: 173.05, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 71, symbol: 'Lu', name: 'Lutetium', mass: 174.97, group: 3, period: 6, category: 'Lanthanide'},
+        {num: 72, symbol: 'Hf', name: 'Hafnium', mass: 178.49, group: 4, period: 6, category: 'Transition Metal'},
+        {num: 73, symbol: 'Ta', name: 'Tantalum', mass: 180.95, group: 5, period: 6, category: 'Transition Metal'},
+        {num: 74, symbol: 'W', name: 'Tungsten', mass: 183.84, group: 6, period: 6, category: 'Transition Metal'},
+        {num: 75, symbol: 'Re', name: 'Rhenium', mass: 186.21, group: 7, period: 6, category: 'Transition Metal'},
+        {num: 76, symbol: 'Os', name: 'Osmium', mass: 190.23, group: 8, period: 6, category: 'Transition Metal'},
+        {num: 77, symbol: 'Ir', name: 'Iridium', mass: 192.22, group: 9, period: 6, category: 'Transition Metal'},
+        {num: 78, symbol: 'Pt', name: 'Platinum', mass: 195.08, group: 10, period: 6, category: 'Transition Metal'},
+        {num: 79, symbol: 'Au', name: 'Gold', mass: 196.97, group: 11, period: 6, category: 'Transition Metal'},
+        {num: 80, symbol: 'Hg', name: 'Mercury', mass: 200.59, group: 12, period: 6, category: 'Transition Metal'},
+        {num: 81, symbol: 'Tl', name: 'Thallium', mass: 204.38, group: 13, period: 6, category: 'Post-transition Metal'},
+        {num: 82, symbol: 'Pb', name: 'Lead', mass: 207.2, group: 14, period: 6, category: 'Post-transition Metal'},
+        {num: 83, symbol: 'Bi', name: 'Bismuth', mass: 208.98, group: 15, period: 6, category: 'Post-transition Metal'},
+        {num: 84, symbol: 'Po', name: 'Polonium', mass: 209, group: 16, period: 6, category: 'Post-transition Metal'},
+        {num: 85, symbol: 'At', name: 'Astatine', mass: 210, group: 17, period: 6, category: 'Halogen'},
+        {num: 86, symbol: 'Rn', name: 'Radon', mass: 222, group: 18, period: 6, category: 'Noble Gas'},
+        {num: 87, symbol: 'Fr', name: 'Francium', mass: 223, group: 1, period: 7, category: 'Alkali Metal'},
+        {num: 88, symbol: 'Ra', name: 'Radium', mass: 226, group: 2, period: 7, category: 'Alkaline Earth Metal'},
+        {num: 89, symbol: 'Ac', name: 'Actinium', mass: 227, group: 3, period: 7, category: 'Actinide'},
+        {num: 90, symbol: 'Th', name: 'Thorium', mass: 232.04, group: 3, period: 7, category: 'Actinide'},
+        {num: 91, symbol: 'Pa', name: 'Protactinium', mass: 231.04, group: 3, period: 7, category: 'Actinide'},
+        {num: 92, symbol: 'U', name: 'Uranium', mass: 238.03, group: 6, period: 7, category: 'Actinide'},
+        {num: 93, symbol: 'Np', name: 'Neptunium', mass: 237, group: 3, period: 7, category: 'Actinide'},
+        {num: 94, symbol: 'Pu', name: 'Plutonium', mass: 244, group: 3, period: 7, category: 'Actinide'},
+        {num: 95, symbol: 'Am', name: 'Americium', mass: 243, group: 3, period: 7, category: 'Actinide'},
+        {num: 96, symbol: 'Cm', name: 'Curium', mass: 247, group: 3, period: 7, category: 'Actinide'},
+        {num: 97, symbol: 'Bk', name: 'Berkelium', mass: 247, group: 3, period: 7, category: 'Actinide'},
+        {num: 98, symbol: 'Cf', name: 'Californium', mass: 251, group: 3, period: 7, category: 'Actinide'},
+        {num: 99, symbol: 'Es', name: 'Einsteinium', mass: 252, group: 3, period: 7, category: 'Actinide'},
+        {num: 100, symbol: 'Fm', name: 'Fermium', mass: 257, group: 3, period: 7, category: 'Actinide'},
+        {num: 101, symbol: 'Md', name: 'Mendelevium', mass: 258, group: 3, period: 7, category: 'Actinide'},
+        {num: 102, symbol: 'No', name: 'Nobelium', mass: 259, group: 3, period: 7, category: 'Actinide'},
+        {num: 103, symbol: 'Lr', name: 'Lawrencium', mass: 266, group: 3, period: 7, category: 'Actinide'},
+        {num: 104, symbol: 'Rf', name: 'Rutherfordium', mass: 267, group: 4, period: 7, category: 'Transition Metal'},
+        {num: 105, symbol: 'Db', name: 'Dubnium', mass: 270, group: 5, period: 7, category: 'Transition Metal'},
+        {num: 106, symbol: 'Sg', name: 'Seaborgium', mass: 271, group: 6, period: 7, category: 'Transition Metal'},
+        {num: 107, symbol: 'Bh', name: 'Bohrium', mass: 270, group: 7, period: 7, category: 'Transition Metal'},
+        {num: 108, symbol: 'Hs', name: 'Hassium', mass: 277, group: 8, period: 7, category: 'Transition Metal'},
+        {num: 109, symbol: 'Mt', name: 'Meitnerium', mass: 278, group: 9, period: 7, category: 'Unknown'},
+        {num: 110, symbol: 'Ds', name: 'Darmstadtium', mass: 281, group: 10, period: 7, category: 'Unknown'},
+        {num: 111, symbol: 'Rg', name: 'Roentgenium', mass: 282, group: 11, period: 7, category: 'Unknown'},
+        {num: 112, symbol: 'Cn', name: 'Copernicium', mass: 285, group: 12, period: 7, category: 'Unknown'},
+        {num: 113, symbol: 'Nh', name: 'Nihonium', mass: 286, group: 13, period: 7, category: 'Unknown'},
+        {num: 114, symbol: 'Fl', name: 'Flerovium', mass: 289, group: 14, period: 7, category: 'Unknown'},
+        {num: 115, symbol: 'Mc', name: 'Moscovium', mass: 290, group: 15, period: 7, category: 'Unknown'},
+        {num: 116, symbol: 'Lv', name: 'Livermorium', mass: 293, group: 16, period: 7, category: 'Unknown'},
+        {num: 117, symbol: 'Ts', name: 'Tennessine', mass: 294, group: 17, period: 7, category: 'Unknown'},
+        {num: 118, symbol: 'Og', name: 'Oganesson', mass: 294, group: 18, period: 7, category: 'Unknown'}
+      ];
+      function renderPeriodicGrid(filter = '') {
+        const grid = document.getElementById('periodic-grid');
+        grid.innerHTML = '';
+        const f = filter.trim().toLowerCase();
+        periodicElements.filter(el =>
+          !f ||
+          el.name.toLowerCase().includes(f) ||
+          el.symbol.toLowerCase().includes(f) ||
+          (''+el.num) === f
+        ).forEach(el => {
+          const btn = document.createElement('button');
+          btn.className = 'border rounded p-2 text-center bg-gray-100 dark:bg-gray-800 hover:bg-blue-200 dark:hover:bg-blue-700';
+          btn.innerHTML = `<div class='font-bold text-lg'>${el.symbol}</div><div class='text-xs'>${el.num}</div>`;
+          btn.onclick = () => showPeriodicDetails(el);
+          grid.appendChild(btn);
+        });
+      }
+      function showPeriodicDetails(el) {
+        document.getElementById('periodic-details').innerHTML =
+          `<div class='text-xl font-bold mb-2'>${el.name} (${el.symbol})</div>`+
+          `<div><b>Atomic Number:</b> ${el.num}</div>`+
+          `<div><b>Atomic Mass:</b> ${el.mass}</div>`+
+          `<div><b>Group:</b> ${el.group}</div>`+
+          `<div><b>Period:</b> ${el.period}</div>`+
+          `<div><b>Category:</b> ${el.category}</div>`;
+      }
+      document.getElementById('periodic-search').addEventListener('input', function() {
+        renderPeriodicGrid(this.value);
+        document.getElementById('periodic-details').innerHTML = '';
+      });
+      renderPeriodicGrid();
+
+      // Logarithm Solver (Any Two to Find Third)
+      function calculateLogAny() {
+        const baseInput = document.getElementById('logBaseAny').value.trim();
+        const numberInput = document.getElementById('logNumberAny').value.trim();
+        const resultInput = document.getElementById('logResultAny').value.trim();
+        const resultDiv = document.getElementById('logAnyResult');
+        let base = baseInput === 'e' ? Math.E : parseFloat(baseInput);
+        let number = parseFloat(numberInput);
+        let result = parseFloat(resultInput);
+        let missing = 0;
+        if (!baseInput) missing++;
+        if (!numberInput) missing++;
+        if (!resultInput) missing++;
+        if (missing !== 1) {
+          resultDiv.innerHTML = `<div class='bg-red-50 border border-red-200 rounded-lg p-4'><h3 class='text-lg font-semibold text-red-800 mb-2'>Error</h3><p class='text-red-700'>Please leave exactly one field blank to calculate it.</p></div>`;
+          return;
+        }
+        try {
+          let explanation = '';
+          if (!baseInput) {
+            // Find base: log_b(x) = y => b = x^(1/y)
+            if (number <= 0) throw new Error('Number must be positive');
+            if (result === 0) throw new Error('Result cannot be zero');
+            base = Math.pow(number, 1/result);
+            explanation = `b = x^(1/y) = ${number}^(1/${result}) = ${base.toFixed(6)}`;
+            document.getElementById('logBaseAny').value = base.toFixed(6);
+          } else if (!numberInput) {
+            // Find number: log_b(x) = y => x = b^y
+            if (base <= 0 || base === 1) throw new Error('Base must be positive and not 1');
+            number = Math.pow(base, result);
+            explanation = `x = b^y = ${baseInput === 'e' ? 'e' : base}^${result} = ${number.toFixed(6)}`;
+            document.getElementById('logNumberAny').value = number.toFixed(6);
+          } else if (!resultInput) {
+            // Find result: log_b(x) = y => y = log_b(x)
+            if (base <= 0 || base === 1) throw new Error('Base must be positive and not 1');
+            if (number <= 0) throw new Error('Number must be positive');
+            result = Math.log(number) / Math.log(base);
+            explanation = `y = log<sub>${baseInput === 'e' ? 'e' : base}</sub>(${number}) = ${result.toFixed(6)}`;
+            document.getElementById('logResultAny').value = result.toFixed(6);
+          }
+          resultDiv.innerHTML = `<div class='bg-green-50 border border-green-200 rounded-lg p-4'><h3 class='text-lg font-semibold text-green-800 mb-2'>Result</h3><p class='text-green-700'>${explanation}</p></div>`;
+        } catch (error) {
+          resultDiv.innerHTML = `<div class='bg-red-50 border border-red-200 rounded-lg p-4'><h3 class='text-lg font-semibold text-red-800 mb-2'>Error</h3><p class='text-red-700'>${error.message}</p></div>`;
+        }
+      }
+      function clearLogAny() {
+        document.getElementById('logBaseAny').value = '';
+        document.getElementById('logNumberAny').value = '';
+        document.getElementById('logResultAny').value = '';
+        document.getElementById('logAnyResult').innerHTML = '';
+      }
+
+      // Triangle Solver (Any 3 to Find Rest)
+      function parseAngle(val, unit) {
+        if (!val) return null;
+        if (unit === 'deg') return parseFloat(val);
+        // Parse radians, allow pi notation
+        let v = val.replace(/\s+/g, '');
+        v = v.replace(/pi/g, Math.PI);
+        try {
+          // eslint-disable-next-line no-eval
+          return parseFloat(eval(v)) * 180 / Math.PI;
+        } catch {
+          return null;
+        }
+      }
+      function formatAngle(val, unit) {
+        if (unit === 'deg') return val.toFixed(4);
+        return (val * Math.PI / 180).toFixed(6);
+      }
+      function calculateTriangleAny() {
+        const a = parseFloat(document.getElementById('sideA').value);
+        const b = parseFloat(document.getElementById('sideB').value);
+        const c = parseFloat(document.getElementById('sideC').value);
+        const A = parseAngle(document.getElementById('angleA').value, document.getElementById('angleUnit').value);
+        const B = parseAngle(document.getElementById('angleB').value, document.getElementById('angleUnit').value);
+        const C = parseAngle(document.getElementById('angleC').value, document.getElementById('angleUnit').value);
+        const unit = document.getElementById('angleUnit').value;
+        const resultDiv = document.getElementById('triangleAnyResult');
+        // Count filled fields
+        let filled = 0, sides = 0;
+        if (!isNaN(a)) { filled++; sides++; }
+        if (!isNaN(b)) { filled++; sides++; }
+        if (!isNaN(c)) { filled++; sides++; }
+        if (!isNaN(A)) filled++;
+        if (!isNaN(B)) filled++;
+        if (!isNaN(C)) filled++;
+        if (filled !== 3 || sides < 1) {
+          resultDiv.innerHTML = `<div class='bg-red-50 border border-red-200 rounded-lg p-4'><h3 class='text-lg font-semibold text-red-800 mb-2'>Error</h3><p class='text-red-700'>Please provide exactly 3 values, including at least one side.</p></div>`;
+          return;
+        }
+        try {
+          // Use Law of Sines and Law of Cosines to solve
+          let _a = a, _b = b, _c = c, _A = A, _B = B, _C = C;
+          // SSS
+          if (!isNaN(a) && !isNaN(b) && !isNaN(c)) {
+            // Use Law of Cosines to find angles
+            _A = Math.acos((b*b + c*c - a*a) / (2*b*c)) * 180 / Math.PI;
+            _B = Math.acos((a*a + c*c - b*b) / (2*a*c)) * 180 / Math.PI;
+            _C = 180 - _A - _B;
+          }
+          // SAS (two sides and included angle)
+          else if (!isNaN(a) && !isNaN(b) && !isNaN(C)) {
+            _c = Math.sqrt(a*a + b*b - 2*a*b*Math.cos(C * Math.PI / 180));
+            _A = Math.asin(a * Math.sin(C * Math.PI / 180) / _c) * 180 / Math.PI;
+            _B = 180 - _A - C;
+          } else if (!isNaN(a) && !isNaN(c) && !isNaN(B)) {
+            _b = Math.sqrt(a*a + c*c - 2*a*c*Math.cos(B * Math.PI / 180));
+            _A = Math.asin(a * Math.sin(B * Math.PI / 180) / _b) * 180 / Math.PI;
+            _C = 180 - _A - B;
+          } else if (!isNaN(b) && !isNaN(c) && !isNaN(A)) {
+            _a = Math.sqrt(b*b + c*c - 2*b*c*Math.cos(A * Math.PI / 180));
+            _B = Math.asin(b * Math.sin(A * Math.PI / 180) / _a) * 180 / Math.PI;
+            _C = 180 - A - _B;
+          }
+          // ASA or AAS (two angles and a side)
+          else if (!isNaN(a) && !isNaN(A) && !isNaN(B)) {
+            _C = 180 - A - B;
+            _b = a * Math.sin(B * Math.PI / 180) / Math.sin(A * Math.PI / 180);
+            _c = a * Math.sin(_C * Math.PI / 180) / Math.sin(A * Math.PI / 180);
+          } else if (!isNaN(a) && !isNaN(A) && !isNaN(C)) {
+            _B = 180 - A - C;
+            _b = a * Math.sin(_B * Math.PI / 180) / Math.sin(A * Math.PI / 180);
+            _c = a * Math.sin(C * Math.PI / 180) / Math.sin(A * Math.PI / 180);
+          } else if (!isNaN(b) && !isNaN(B) && !isNaN(A)) {
+            _C = 180 - A - B;
+            _a = b * Math.sin(A * Math.PI / 180) / Math.sin(B * Math.PI / 180);
+            _c = b * Math.sin(_C * Math.PI / 180) / Math.sin(B * Math.PI / 180);
+          } else if (!isNaN(b) && !isNaN(B) && !isNaN(C)) {
+            _A = 180 - B - C;
+            _a = b * Math.sin(_A * Math.PI / 180) / Math.sin(B * Math.PI / 180);
+            _c = b * Math.sin(C * Math.PI / 180) / Math.sin(B * Math.PI / 180);
+          } else if (!isNaN(c) && !isNaN(C) && !isNaN(A)) {
+            _B = 180 - A - C;
+            _a = c * Math.sin(A * Math.PI / 180) / Math.sin(C * Math.PI / 180);
+            _b = c * Math.sin(_B * Math.PI / 180) / Math.sin(C * Math.PI / 180);
+          } else if (!isNaN(c) && !isNaN(C) && !isNaN(B)) {
+            _A = 180 - B - C;
+            _a = c * Math.sin(_A * Math.PI / 180) / Math.sin(C * Math.PI / 180);
+            _b = c * Math.sin(B * Math.PI / 180) / Math.sin(C * Math.PI / 180);
+          }
+          // SSA (ambiguous case)
+          else if (!isNaN(a) && !isNaN(b) && !isNaN(A)) {
+            _B = Math.asin(b * Math.sin(A * Math.PI / 180) / a) * 180 / Math.PI;
+            _C = 180 - A - _B;
+            _c = a * Math.sin(_C * Math.PI / 180) / Math.sin(A * Math.PI / 180);
+          } else if (!isNaN(a) && !isNaN(c) && !isNaN(A)) {
+            _C = Math.asin(c * Math.sin(A * Math.PI / 180) / a) * 180 / Math.PI;
+            _B = 180 - A - _C;
+            _b = a * Math.sin(_B * Math.PI / 180) / Math.sin(A * Math.PI / 180);
+          } else if (!isNaN(b) && !isNaN(a) && !isNaN(B)) {
+            _A = Math.asin(a * Math.sin(B * Math.PI / 180) / b) * 180 / Math.PI;
+            _C = 180 - _A - B;
+            _c = b * Math.sin(_C * Math.PI / 180) / Math.sin(B * Math.PI / 180);
+          } else if (!isNaN(b) && !isNaN(c) && !isNaN(B)) {
+            _C = Math.asin(c * Math.sin(B * Math.PI / 180) / b) * 180 / Math.PI;
+            _A = 180 - B - _C;
+            _a = b * Math.sin(_A * Math.PI / 180) / Math.sin(B * Math.PI / 180);
+          } else if (!isNaN(c) && !isNaN(a) && !isNaN(C)) {
+            _A = Math.asin(a * Math.sin(C * Math.PI / 180) / c) * 180 / Math.PI;
+            _B = 180 - _A - C;
+            _b = c * Math.sin(_B * Math.PI / 180) / Math.sin(C * Math.PI / 180);
+          } else if (!isNaN(c) && !isNaN(b) && !isNaN(C)) {
+            _B = Math.asin(b * Math.sin(C * Math.PI / 180) / c) * 180 / Math.PI;
+            _A = 180 - B - _B;
+            _a = c * Math.sin(_A * Math.PI / 180) / Math.sin(C * Math.PI / 180);
+          } else {
+            throw new Error('Unsupported or ambiguous combination.');
+          }
+          // Write results
+          document.getElementById('sideA').value = _a ? _a.toFixed(6) : '';
+          document.getElementById('sideB').value = _b ? _b.toFixed(6) : '';
+          document.getElementById('sideC').value = _c ? _c.toFixed(6) : '';
+          document.getElementById('angleA').value = _A ? formatAngle(_A, unit) : '';
+          document.getElementById('angleB').value = _B ? formatAngle(_B, unit) : '';
+          document.getElementById('angleC').value = _C ? formatAngle(_C, unit) : '';
+          // Area and perimeter
+          const s = (_a + _b + _c) / 2;
+          const area = Math.sqrt(s * (s - _a) * (s - _b) * (s - _c));
+          const perimeter = _a + _b + _c;
+          resultDiv.innerHTML = `<div class='bg-green-50 border border-green-200 rounded-lg p-4'><h3 class='text-lg font-semibold text-green-800 mb-2'>Result</h3><p class='text-green-700'>a = ${_a.toFixed(6)}, b = ${_b.toFixed(6)}, c = ${_c.toFixed(6)}<br>A = ${formatAngle(_A, unit)}, B = ${formatAngle(_B, unit)}, C = ${formatAngle(_C, unit)}<br>Area = ${area.toFixed(6)}, Perimeter = ${perimeter.toFixed(6)}</p></div>`;
+        } catch (error) {
+          resultDiv.innerHTML = `<div class='bg-red-50 border border-red-200 rounded-lg p-4'><h3 class='text-lg font-semibold text-red-800 mb-2'>Error</h3><p class='text-red-700'>${error.message}</p></div>`;
+        }
+      }
+      function clearTriangleAny() {
+        document.getElementById('sideA').value = '';
+        document.getElementById('sideB').value = '';
+        document.getElementById('sideC').value = '';
+        document.getElementById('angleA').value = '';
+        document.getElementById('angleB').value = '';
+        document.getElementById('angleC').value = '';
+        document.getElementById('triangleAnyResult').innerHTML = '';
+      }
+    </script>
+</body>
+</html> 

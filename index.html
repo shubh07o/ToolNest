@@ -797,11 +797,11 @@
             <div class="flex space-x-2">
               <div class="flex-1">
                 <label class="block text-xs font-medium mb-1">Height (cm)</label>
-                <input type="number" id="bmi-height-cm" min="0" placeholder="cm" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+                <input type="number" id="bmi-height-cm" min="0" placeholder="cm" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
               </div>
               <div class="flex-1">
                 <label class="block text-xs font-medium mb-1">Weight (kg)</label>
-                <input type="number" id="bmi-weight-kg" min="0" placeholder="kg" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700">
+                <input type="number" id="bmi-weight-kg" min="0" placeholder="kg" class="w-full border rounded-lg px-2 py-1 dark:bg-gray-800 dark:border-gray-700" required>
               </div>
             </div>
           </div>
@@ -1354,6 +1354,10 @@
         const metricTab = document.getElementById('bmi-metric-tab');
         const usFields = document.getElementById('bmi-us-fields');
         const metricFields = document.getElementById('bmi-metric-fields');
+        
+        // Clear previous results
+        document.getElementById('bmi-result').innerHTML = '';
+        
         if (tab === 'us') {
           usTab.classList.add('border-green-600', 'text-green-700', 'dark:text-green-300');
           usTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
@@ -1361,6 +1365,13 @@
           metricTab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
           usFields.classList.remove('hidden');
           metricFields.classList.add('hidden');
+          
+          // Enable US field validation, disable metric
+          document.getElementById('bmi-height-ft').required = true;
+          document.getElementById('bmi-height-in').required = true;
+          document.getElementById('bmi-weight-lb').required = true;
+          document.getElementById('bmi-height-cm').required = false;
+          document.getElementById('bmi-weight-kg').required = false;
         } else {
           metricTab.classList.add('border-green-600', 'text-green-700', 'dark:text-green-300');
           metricTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
@@ -1368,6 +1379,13 @@
           usTab.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
           metricFields.classList.remove('hidden');
           usFields.classList.add('hidden');
+          
+          // Enable metric field validation, disable US
+          document.getElementById('bmi-height-cm').required = true;
+          document.getElementById('bmi-weight-kg').required = true;
+          document.getElementById('bmi-height-ft').required = false;
+          document.getElementById('bmi-height-in').required = false;
+          document.getElementById('bmi-weight-lb').required = false;
         }
       }
 
@@ -1376,15 +1394,31 @@
       if (bmiForm) {
         bmiForm.addEventListener('submit', function(e) {
           e.preventDefault();
+          
           const age = parseInt(document.getElementById('bmi-age').value, 10);
           const gender = bmiForm.querySelector('input[name="bmi-gender"]:checked').value;
           let bmi = 0, heightM = 0, weightKg = 0, result = '';
           let unit = 'us';
-          if (!document.getElementById('bmi-us-fields').classList.contains('hidden')) {
+          
+          // Check which unit system is active
+          const isUSUnits = !document.getElementById('bmi-us-fields').classList.contains('hidden');
+          
+          if (isUSUnits) {
             // US Units
             const ft = parseInt(document.getElementById('bmi-height-ft').value, 10) || 0;
             const inch = parseInt(document.getElementById('bmi-height-in').value, 10) || 0;
             const lbs = parseFloat(document.getElementById('bmi-weight-lb').value) || 0;
+            
+            // Validate US inputs
+            if (ft <= 0 && inch <= 0) {
+              document.getElementById('bmi-result').innerHTML = '<span class="text-red-600">Please enter valid height in feet and inches.</span>';
+              return;
+            }
+            if (lbs <= 0) {
+              document.getElementById('bmi-result').innerHTML = '<span class="text-red-600">Please enter valid weight in pounds.</span>';
+              return;
+            }
+            
             heightM = ((ft * 12) + inch) * 0.0254;
             weightKg = lbs * 0.45359237;
             unit = 'us';
@@ -1392,39 +1426,66 @@
             // Metric Units
             const cm = parseFloat(document.getElementById('bmi-height-cm').value) || 0;
             const kg = parseFloat(document.getElementById('bmi-weight-kg').value) || 0;
+            
+            // Validate metric inputs
+            if (cm <= 0) {
+              document.getElementById('bmi-result').innerHTML = '<span class="text-red-600">Please enter valid height in centimeters.</span>';
+              return;
+            }
+            if (kg <= 0) {
+              document.getElementById('bmi-result').innerHTML = '<span class="text-red-600">Please enter valid weight in kilograms.</span>';
+              return;
+            }
+            
             heightM = cm / 100;
             weightKg = kg;
             unit = 'metric';
           }
-          if (heightM <= 0 || weightKg <= 0 || age < 2 || age > 120) {
-            document.getElementById('bmi-result').innerHTML = '<span class="text-red-600">Please enter valid values.</span>';
+          
+          // Validate age
+          if (age < 2 || age > 120) {
+            document.getElementById('bmi-result').innerHTML = '<span class="text-red-600">Please enter a valid age between 2 and 120.</span>';
             return;
           }
+          
+          // Calculate BMI
           bmi = weightKg / (heightM * heightM);
           const bmiPrime = bmi / 25;
           const ponderal = weightKg / Math.pow(heightM, 3);
-          // Category
+          
+          // Determine category
           let category = '', color = 'text-green-600';
-          if (bmi < 18.5) { category = 'Underweight'; color = 'text-yellow-500'; }
-          else if (bmi < 25) { category = 'Normal'; color = 'text-green-600'; }
-          else if (bmi < 30) { category = 'Overweight'; color = 'text-yellow-600'; }
-          else { category = 'Obesity'; color = 'text-red-600'; }
-          // Healthy range
+          if (bmi < 18.5) { 
+            category = 'Underweight'; 
+            color = 'text-yellow-500'; 
+          } else if (bmi < 25) { 
+            category = 'Normal'; 
+            color = 'text-green-600'; 
+          } else if (bmi < 30) { 
+            category = 'Overweight'; 
+            color = 'text-yellow-600'; 
+          } else { 
+            category = 'Obesity'; 
+            color = 'text-red-600'; 
+          }
+          
+          // Calculate healthy weight range
           const healthyMin = 18.5 * (heightM * heightM);
           const healthyMax = 25 * (heightM * heightM);
-          // lbs for US
           const healthyMinLbs = healthyMin / 0.45359237;
           const healthyMaxLbs = healthyMax / 0.45359237;
-          // Result
+          
+          // Format result
           result = `<div class="mb-2"><b>BMI = ${bmi.toFixed(1)} kg/m²</b> <span class="${color}">(${category})</span></div>` +
             `<div class="mb-2">Healthy BMI range: 18.5 kg/m² - 25 kg/m²</div>` +
-            `<div class="mb-2">Healthy weight for the height: ` +
+            `<div class="mb-2">Healthy weight for your height: ` +
             (unit === 'us'
               ? `${healthyMinLbs.toFixed(1)} lbs - ${healthyMaxLbs.toFixed(1)} lbs`
               : `${healthyMin.toFixed(1)} kg - ${healthyMax.toFixed(1)} kg`) +
             `</div>` +
             `<div class="mb-2">BMI Prime: ${bmiPrime.toFixed(2)}</div>` +
             `<div class="mb-2">Ponderal Index: ${ponderal.toFixed(1)} kg/m³</div>`;
+          
           document.getElementById('bmi-result').innerHTML = result;
         });
       }
